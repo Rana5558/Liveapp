@@ -1,9 +1,27 @@
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import Features from "@/components/Features";
+import Trending from "@/components/Trending";
+import AIPlatformFeatures from "@/components/AIPlatformFeatures";
+import MoreFeatures from "@/components/MoreFeatures";
+import FAQ from "@/components/FAQ";
+import CTA from "@/components/CTA";
+import Pricing from "@/components/Pricing";
+import Footer from "@/components/Footer";
+
 export default function Home() {
   return (
-    <div className="flex items-center justify-center h-screen bg-black">
-      <h1 className="text-4xl font-bold text-yellow-400">
-        Tailwind is Working And git branch merging is also working 🚀🔥
-      </h1>
-    </div>
+    <main className="min-h-screen bg-black text-white selection:bg-primary/30">
+      <Navbar />
+      <Hero />
+      <Features />
+      <Trending />
+      <FAQ />
+      <AIPlatformFeatures />
+      <CTA />
+      <MoreFeatures />
+      <Pricing />
+      <Footer />
+    </main>
   );
 }
