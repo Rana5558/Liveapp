@@ -27,18 +27,18 @@ export default function MoreFeatures() {
     ];
 
     return (
-        <section className="py-24 px-6 bg-black text-white">
+        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-black text-white">
             <div className="max-w-7xl mx-auto">
-                <div className="mb-20">
-                    <span className="text-gray-500 text-3xl md:text-5xl font-medium block mb-4">More features</span>
-                    <h2 className="text-4xl md:text-6xl font-medium text-white tracking-tight">
-                        Aliveai.Ai offers to an individual
+                <div className="mb-12 sm:mb-16">
+                    <span className="text-gray-400 text-lg sm:text-xl md:text-2xl font-medium block mb-3">More features</span>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-white tracking-tight">
+                        Aliveai.ai features for individuals
                     </h2>
                 </div>
 
-                <div className="border-t border-white/20 mb-16"></div>
+                <div className="border-t border-white/20 mb-10"></div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
                     {features.map((feature, index) => (
                         <div key={index} className="space-y-4">
                             <h3 className="text-xl font-medium text-white">
