@@ -3,10 +3,10 @@ import { IoIosSend } from "react-icons/io";
 
 export default function Footer() {
     return (
-        <footer className="w-full bg-gradient-to-b from-[#0d0d0d] to-[#000000] text-white py-24 px-6 md:px-16 relative">
+        <footer className="w-full bg-gradient-to-b from-[#0d0d0d] to-[#000000] text-white py-16 px-4 sm:px-6 md:px-12 relative">
 
             {/* GRID TOP SECTION */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-16 max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 max-w-7xl mx-auto">
 
                 {/* --- NAVIGATION --- */}
                 <div>
@@ -73,7 +73,7 @@ export default function Footer() {
             </div>
 
             {/* LOCATION */}
-            <div className="max-w-7xl mx-auto mt-20">
+            <div className="max-w-7xl mx-auto mt-12">
                 <h4 className="text-gray-400 text-sm mb-2">Location</h4>
                 <p className="text-white/80 text-sm">
                     2972 Westheimer Rd. Santa Ana, Illinois 85486
@@ -81,7 +81,7 @@ export default function Footer() {
             </div>
 
             {/* --- BOTTOM FOOTER BAR --- */}
-            <div className="max-w-7xl mx-auto mt-24 flex justify-between items-center text-sm">
+            <div className="max-w-7xl mx-auto mt-12 flex flex-col md:flex-row md:justify-between items-start md:items-center text-sm gap-6">
 
                 <div className="text-white/40 space-y-1">
                     <p>Copyright</p>

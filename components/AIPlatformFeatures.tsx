@@ -4,18 +4,18 @@ import { CheckCircle2 } from "lucide-react";
 
 export default function AIPlatformFeatures() {
     return (
-        <section className="py-24 px-6 bg-black text-white space-y-32">
+        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-black text-white space-y-20">
 
             {/* Feature 1: Fingertip Doctor */}
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div className="space-y-8">
                     <div>
                         <span className="text-primary font-semibold tracking-wider uppercase text-sm">AI Features</span>
-                        <h2 className="text-4xl md:text-5xl font-bold mt-2 leading-tight">
-                            Aliveai.ai You Fingertip <br /> Doctor
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mt-2 leading-tight">
+                            Aliveai.ai — Your Fingertip Doctor
                         </h2>
                     </div>
-                    <p className="text-gray-400 text-lg leading-relaxed max-w-md">
+                    <p className="text-gray-400 text-base sm:text-lg leading-relaxed max-w-md">
                         Aliveai.Ai An Ai Based Doctor Platform Which Will Help You Understand Predict About Your Health
                     </p>
 
@@ -52,16 +52,16 @@ export default function AIPlatformFeatures() {
             </div>
 
             {/* Feature 2: Video Chat */}
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 {/* Order swap on mobile/desktop appropriately if needed */}
                 <div className="space-y-8">
                     <div>
                         <span className="text-primary font-semibold tracking-wider uppercase text-sm">AI Features</span>
-                        <h2 className="text-4xl md:text-5xl font-bold mt-2 leading-tight">
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mt-2 leading-tight">
                             Video Chat With Doctors
                         </h2>
                     </div>
-                    <p className="text-gray-400 text-lg leading-relaxed max-w-md">
+                    <p className="text-gray-400 text-base sm:text-lg leading-relaxed max-w-md">
                         Don't Need To Visit Clinics In Person You Can Bring A Doctor At Any Place
                     </p>
 

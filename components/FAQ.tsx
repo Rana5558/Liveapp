@@ -44,10 +44,10 @@ export default function FAQ() {
     };
 
     return (
-        <section id="faq" className="py-24 px-6 max-w-5xl mx-auto bg-black border-t border-white/5">
-            <div className="text-center mb-20 space-y-4">
-                <h2 className="text-3xl md:text-5xl font-bold text-white">Everything You Need To Know</h2>
-                <p className="text-gray-400 text-sm md:text-base">Here Are Some Frequently Asked Questions</p>
+        <section id="faq" className="py-16 sm:py-20 px-4 sm:px-6 max-w-4xl sm:max-w-5xl mx-auto bg-black border-t border-white/5">
+            <div className="text-center mb-12 sm:mb-16 space-y-3">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">Everything You Need To Know</h2>
+                <p className="text-gray-400 text-sm">Here Are Some Frequently Asked Questions</p>
             </div>
 
             <div className="space-y-0">

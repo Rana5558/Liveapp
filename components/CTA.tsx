@@ -3,17 +3,8 @@ import Link from "next/link";
 
 export default function CTA() {
     return (
-        <section className="w-full flex justify-center px-4 py-24">
-            <div className="
-                relative w-full max-w-7xl 
-                rounded-[36px] 
-                bg-[#161616] 
-                bg-gradient-to-br from-[#1a1a1a] via-[#111111] to-[#0b0b0b]
-                border border-white/5
-                shadow-[0px_0px_50px_rgba(0,0,0,0.35)]
-                px-8 md:px-28 py-24
-                overflow-hidden
-            ">
+        <section className="w-full flex justify-center px-4 py-12 sm:py-16">
+            <div className="relative w-full max-w-6xl sm:max-w-7xl rounded-2xl bg-[#161616] bg-gradient-to-br from-[#1a1a1a] via-[#111111] to-[#0b0b0b] border border-white/5 shadow-[0px_0px_40px_rgba(0,0,0,0.28)] px-6 sm:px-12 md:px-20 py-12 sm:py-20 overflow-hidden">
 
                 {/* 🔹 Top-left big vector */}
                 <Image
@@ -53,22 +44,19 @@ export default function CTA() {
 
                 {/* TEXT */}
                 <div className="relative z-10 text-center">
-                    <h2 className="text-white text-3xl sm:text-5xl font-semibold leading-snug">
+                    <h2 className="text-white text-2xl sm:text-3xl md:text-4xl font-semibold leading-snug">
                         Aliveai.ai has no limitation.
                     </h2>
 
-                    <p className="mt-4 text-white text-2xl sm:text-4xl font-medium leading-snug">
-                        Get Started in a journey with Aliveai.ai.
+                    <p className="mt-3 text-white text-lg sm:text-2xl md:text-3xl font-medium leading-snug max-w-2xl mx-auto">
+                        Get started on a journey with Aliveai.ai.
                     </p>
 
-                    <Link
-                        href="/signup"
-                        className="mt-12 inline-block px-10 py-4 bg-white text-black
-                        rounded-full font-medium text-base hover:bg-gray-100 shadow-lg
-                        transition"
-                    >
-                        Create an Account
-                    </Link>
+                    <div className="mt-8">
+                        <Link href="/signup" className="inline-block px-6 sm:px-10 py-3 sm:py-4 bg-white text-black rounded-full font-medium text-sm sm:text-base hover:bg-gray-100 shadow-lg transition">
+                            Create an Account
+                        </Link>
+                    </div>
                 </div>
             </div>
         </section>

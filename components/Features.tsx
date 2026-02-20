@@ -33,22 +33,22 @@ const features = [
 
 export default function Features() {
     return (
-        <section id="features" className="py-24 px-6 max-w-7xl mx-auto bg-black">
+        <section id="features" className="py-20 px-4 sm:px-6 lg:px-8 bg-black">
             {/* Header */}
-            <div className="text-center mb-16 space-y-4">
+            <div className="text-center mb-12 space-y-4">
                 <span className="inline-block px-4 py-1.5 rounded-full bg-[#8B5CF6] text-black text-xs font-semibold tracking-wide">
                     Get in touch for free
                 </span>
-                <h2 className="text-3xl md:text-5xl font-bold text-white pt-4">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white pt-4">
                     Instant Content Generation with AI
                 </h2>
-                <p className="text-gray-400 text-sm md:text-base font-medium">
+                <p className="text-gray-400 text-sm md:text-base font-medium max-w-2xl mx-auto">
                     Provide Descriptions, Get Instant AI Generated Content
                 </p>
             </div>
 
             {/* Feature Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-0">
                 {features.map((feature, index) => (
                     <div
                         key={index}
@@ -64,7 +64,7 @@ export default function Features() {
                             />
                         </div>
                         <h3 className="text-xl font-bold text-white">{feature.title}</h3>
-                        <p className="text-gray-400 text-xs leading-relaxed max-w-xs">{feature.description}</p>
+                        <p className="text-gray-400 text-sm leading-relaxed max-w-xs">{feature.description}</p>
                     </div>
                 ))}
             </div>
