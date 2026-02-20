@@ -134,7 +134,7 @@ export default function PatientDashboardPage() {
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                             placeholder="Enter a prompt"
-                            className="flex-1 bg-transparent text-white placeholder-neutral-600 outline-none text-xs"
+                            className="flex-1 bg-transparent text-white placeholder-neutral-600 outline-none text-xs "
                         />
                         <Mic className="w-4 h-4 text-neutral-500 cursor-pointer hover:text-neutral-300 transition-colors" />
                         <button className="p-2 bg-primary hover:bg-primary/90 text-white rounded-full transition-colors">

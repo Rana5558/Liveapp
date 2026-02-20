@@ -95,118 +95,59 @@ export default function ChatHistoryPage() {
     };
 
     return (
-        <div className="px-4 sm:px-8 pt-6 sm:pt-8 space-y-6">
+        // full-height dark layout to fit inside an iframe with only inner scrolling
+        <div className="h-full w-full flex flex-col bg-neutral-900 text-white overflow-hidden p-4">
             {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-                <div className="flex items-center gap-3">
-                    <Clock className="w-7 h-7 text-primary" />
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Chat History</h1>
-                </div>
-                <p className="text-gray-600 sm:ml-2">View and manage your previous conversations</p>
+            <div className="flex items-center gap-2 py-2 border-b border-neutral-700">
+                <Clock className="w-5 h-5 text-primary" />
+                <h1 className="text-base font-medium">Chat History</h1>
             </div>
 
-            {/* Search and Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-                <div className="flex-1 relative">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            {/* Search bar */}
+            <div className="py-2 border-b border-neutral-700">
+                <div className="relative">
+                    <Search className="absolute left-2 top-1/2 -translate-y-1/2 text-neutral-400" />
                     <input
                         type="text"
-                        placeholder="Search conversations..."
+                        placeholder="Search your chats"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                        className="w-full pl-8 pr-2 py-1.5 rounded bg-neutral-800 text-white text-sm placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                 </div>
-
-                {/* Quick Action Buttons */}
-                {selectedChats.length > 0 && (
-                    <div className="flex gap-2">
-                        <button className="px-4 py-3 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors flex items-center gap-2">
-                            <Archive className="w-4 h-4" />
-                            <span className="text-sm font-medium">Archive</span>
-                        </button>
-                        <button className="px-4 py-3 rounded-lg border border-red-300 text-red-600 hover:bg-red-50 transition-colors flex items-center gap-2">
-                            <Trash2 className="w-4 h-4" />
-                            <span className="text-sm font-medium">Delete</span>
-                        </button>
-                    </div>
-                )}
             </div>
 
-            {/* Chat List */}
-            <div className="space-y-3">
+            {/* Chat list container with inner scrolling */}
+            <div className="flex-1 overflow-auto">
                 {filteredChats.length > 0 ? (
                     filteredChats.map((chat) => (
                         <div
                             key={chat.id}
-                            className="bg-white p-4 rounded-lg border border-gray-200 hover:border-primary hover:shadow-md transition-all duration-300 cursor-pointer group"
+                            className="flex items-center justify-between px-3 py-2 border-b border-neutral-700 hover:bg-neutral-800 transition-colors cursor-pointer"
                         >
-                            <div className="flex items-start gap-4">
-                                {/* Checkbox */}
-                                <input
-                                    type="checkbox"
-                                    checked={selectedChats.includes(chat.id)}
-                                    onChange={() => toggleSelect(chat.id)}
-                                    className="mt-2 w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
-                                />
-
-                                {/* Chat Details */}
-                                <div className="flex-1 min-w-0">
-                                    <div className="flex items-start justify-between gap-4 mb-2">
-                                        <h3 className="font-semibold text-gray-900 group-hover:text-primary transition-colors truncate">
-                                            {chat.title}
-                                        </h3>
-                                        <span className="text-xs text-gray-500 whitespace-nowrap ml-4">
-                                            {chat.date}
-                                        </span>
-                                    </div>
-
-                                    {/* Preview */}
-                                    <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                                        {chat.preview}
-                                    </p>
-
-                                    {/* Message Count */}
-                                    <div className="flex items-center gap-2">
-                                        <MessageCircle className="w-4 h-4 text-gray-400" />
-                                        <span className="text-xs text-gray-500">
-                                            {chat.messageCount} messages
-                                        </span>
-                                    </div>
+                            <div className="flex-1 min-w-0">
+                                <div className="flex justify-between items-center">
+                                    <h3 className="font-medium text-sm truncate">{chat.title}</h3>
+                                    <span className="text-[10px] text-neutral-400 ml-2">{chat.date}</span>
                                 </div>
-
-                                {/* Actions (visible on hover) */}
-                                <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                                        <Archive className="w-4 h-4 text-gray-600 hover:text-primary" />
-                                    </button>
-                                    <button className="p-2 rounded-lg hover:bg-red-50 transition-colors">
-                                        <Trash2 className="w-4 h-4 text-gray-600 hover:text-red-600" />
-                                    </button>
-                                </div>
+                                <p className="text-[10px] text-neutral-500 mt-1 truncate">
+                                    {chat.preview}
+                                </p>
+                            </div>
+                            <div className="flex items-center gap-2 ml-3">
+                                <MessageCircle className="w-3 h-3 text-neutral-500" />
+                                <span className="text-[10px] text-neutral-400">{chat.messageCount}</span>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <div className="bg-white p-12 rounded-lg border border-gray-200 text-center">
-                        <MessageCircle className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold text-gray-600 mb-2">No conversations found</h3>
-                        <p className="text-gray-500">Start a new conversation or try a different search term</p>
+                    <div className="p-8 text-center">
+                        <MessageCircle className="w-12 h-12 text-neutral-500 mx-auto mb-4" />
+                        <h3 className="text-lg font-semibold text-neutral-400 mb-2">No conversations found</h3>
+                        <p className="text-neutral-500">Start a new conversation or try a different search term</p>
                     </div>
                 )}
             </div>
-
-            {/* Pagination Info */}
-            {filteredChats.length > 0 && (
-                <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                    <p className="text-sm text-gray-600">
-                        Showing {filteredChats.length} of {chatHistory.length} conversations
-                    </p>
-                    <button className="px-4 py-2 border border-primary text-primary font-medium rounded-lg hover:bg-primary/5 transition-colors">
-                        Load More
-                    </button>
-                </div>
-            )}
         </div>
     );
 }
