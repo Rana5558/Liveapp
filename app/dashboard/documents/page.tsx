@@ -36,10 +36,6 @@ export default function DocumentsPage() {
                     <h1 className="text-3xl font-bold text-white mb-2">Documents</h1>
                     <p className="text-neutral-400">Manage your medical documents and reports</p>
                 </div>
-                <button className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
-                    <Upload className="w-5 h-5" />
-                    Upload Document
-                </button>
             </div>
 
             {/* Documents List */}
