@@ -44,7 +44,7 @@ export default function LoginPage() {
                     email: 'doctor@example.com',
                     role: 'doctor'
                 }));
-                router.push('/dashboard/home');
+                router.push('/dashboard/docdashboard/home');
             } else {
                 setError('Invalid email or password. Use doctor@example.com / password123');
             }

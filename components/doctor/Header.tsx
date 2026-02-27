@@ -2,7 +2,6 @@
 
 import React from 'react';
 import {
-    Bell,
     HelpCircle,
     ChevronDown,
     Zap,
@@ -12,48 +11,64 @@ import {
 import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
 import { useDoctorSidebar } from '@/lib/contexts/DoctorSidebarContext';
+import { usePathname } from 'next/navigation';
 
+const PATH_TITLES: Record<string, string> = {
+    '/dashboard/docdashboard/home': 'Dashboard',
+    '/dashboard/docdashboard/calendar': 'Calendar',
+    '/dashboard/docdashboard/patients': 'Patient Records',
+    '/dashboard/docdashboard/availability': 'My Availability',
+    '/dashboard/docdashboard/profile': 'Profile',
+};
 
-export default function DoctorHeader({ title = "Dashboard" }: { title?: string }) {
+export default function DoctorHeader({ title }: { title?: string }) {
     const { user } = useSelector((state: RootState) => state.auth);
     const { mobileOpen, setMobileOpen } = useDoctorSidebar();
+    const pathname = usePathname();
+    const pageTitle = title ?? PATH_TITLES[pathname] ?? 'Dashboard';
 
     return (
-        <header className="h-16 md:h-20 bg-gradient-to-b from-[#3a3a3a] to-[#2c2c2c] border-b border-neutral-800 flex items-center justify-between px-4 md:px-8 sticky top-0 z-10">
+        <header className="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-4 md:px-6 sticky top-0 z-10 shadow-sm">
+            {/* Left: Mobile Menu + Title */}
             <div className="flex items-center gap-3">
-                <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 mr-2 rounded-md bg-white text-black" aria-label="Toggle menu">
+                <button
+                    onClick={() => setMobileOpen(!mobileOpen)}
+                    className="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors"
+                    aria-label="Toggle menu"
+                >
                     {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </button>
-                <h1 className="text-lg md:text-2xl font-bold text-white">{title}</h1>
+                <h1 className="text-xl font-bold text-gray-800">{pageTitle}</h1>
             </div>
 
-            <div className="flex items-center gap-4">
-                <button className="hidden md:flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-3 py-1.5 rounded-full font-medium shadow-lg shadow-primary/20 transition-all duration-200 group">
-                    <Zap className="w-4 h-4 fill-white" />
-                    <span className="hidden sm:inline">Upgrade</span>
+            {/* Right: Actions */}
+            <div className="flex items-center gap-2 md:gap-3">
+                {/* Upgrade Button */}
+                <button className="flex items-center gap-1.5 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-md shadow-primary/25 transition-all duration-200">
+                    <Zap className="w-3.5 h-3.5 fill-white" />
+                    <span>Upgrade</span>
                 </button>
 
-                <div className="hidden sm:flex items-center gap-4 border-l border-neutral-800 pl-4">
-                    <button className="p-2 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded-lg transition-colors relative">
-                        <HelpCircle className="w-5 h-5" />
-                    </button>
-                    <button className="p-2 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded-lg transition-colors relative">
-                        <Bell className="w-5 h-5" />
-                        <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-neutral-900"></span>
-                    </button>
-                </div>
+                {/* Help */}
+                <button className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors">
+                    <HelpCircle className="w-5 h-5" />
+                </button>
 
-                <div className="flex items-center gap-3 pl-2 cursor-pointer hover:bg-neutral-800 p-1.5 rounded-xl transition-colors">
-                    <div className="w-8 h-8 rounded-full bg-neutral-800 overflow-hidden border border-neutral-700">
+                {/* Divider */}
+                <div className="h-6 w-px bg-gray-200 hidden sm:block" />
+
+                {/* User Avatar */}
+                <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 px-2 py-1 rounded-xl transition-colors">
+                    <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-gray-200">
                         <img
                             src="https://api.dicebear.com/7.x/avataaars/svg?seed=Doctor"
-                            alt="Profile"
+                            alt="Doctor profile"
                             className="w-full h-full object-cover"
                         />
                     </div>
                     <div className="hidden sm:flex items-center gap-1">
-                        <span className="font-medium text-white">{user?.name || "Doctor"}</span>
-                        <ChevronDown className="w-4 h-4 text-neutral-400" />
+                        <span className="font-semibold text-sm text-gray-700">{user?.name || "Maya Sinclair"}</span>
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
                     </div>
                 </div>
             </div>

@@ -66,10 +66,10 @@ export default function PatientLoginPage() {
                         <div className="text-center space-y-2">
                             <div className="flex justify-center mb-6">
                                 <Image
-                                    src="/images/mainlogo.png"
+                                    src="/images/mainlogo2.png"
                                     alt="Logo"
-                                    width={150}
-                                    height={50}
+                                    width={100}
+                                    height={25}
                                     className="object-contain"
                                     priority
                                 />

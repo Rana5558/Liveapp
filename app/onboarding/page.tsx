@@ -69,7 +69,7 @@ export default function OnboardingPage() {
   return (
     <div className="min-h-screen w-full bg-neutral-950 flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-800">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-800 md:ml-12">
         <div className="flex items-center gap-2">
           <div className="flex items-center">
             <Image
