@@ -3,30 +3,21 @@
 import React from "react";
 import { useDoctorSidebar } from '@/lib/contexts/DoctorSidebarContext';
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import {
-    MessageCircle,
-    FileText,
     Calendar,
-    TrendingUp,
-    Clock,
-    MessageSquare,
-    UserPlus,
     Settings,
     ChevronLeft,
     ChevronRight,
-    Sparkles,
-    X,
-    Menu,
-    LogOut,
     Users,
     LayoutDashboard,
-    User
+    User,
+    Clock,
+    MessageSquare,
+    UserPlus,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useDispatch } from "react-redux";
-import { logout } from "@/lib/features/auth/authSlice";
 
 const sidebarItems = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard/docdashboard/home" },
@@ -44,97 +35,93 @@ const bottomItems = [
 
 export default function DoctorSidebar() {
     const pathname = usePathname();
-    const router = useRouter();
-    const dispatch = useDispatch();
     const { mobileOpen, setMobileOpen, collapsed, setCollapsed } = useDoctorSidebar();
-
-    const handleLogout = () => {
-        dispatch(logout());
-        router.push("/");
-    };
 
     return (
         <>
             {/* Mobile Overlay */}
             {mobileOpen && (
                 <div
-                    className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+                    className="fixed inset-0 bg-black/40 z-40 lg:hidden"
                     onClick={() => setMobileOpen(false)}
                 />
             )}
 
+
+
             {/* Sidebar */}
             <aside
                 className={cn(
-                    "fixed lg:sticky top-0 left-0 z-50 h-screen transition-all duration-300 bg-neutral-800 border-r border-neutral-800 flex flex-col",
-                    collapsed ? "w-[80px]" : "w-[260px]",
+                    "fixed lg:sticky top-0 left-0 z-50 h-screen transition-all duration-300 bg-white border-r border-gray-100 flex flex-col shadow-sm",
+                    collapsed ? "w-[72px]" : "w-[240px]",
                     mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
                 )}
             >
                 {/* Logo */}
-                <div className="flex items-center justify-center mb-8">
+                <div className="flex items-center justify-center py-5 px-4 border-b border-gray-100">
                     <Image
-                        src="/images/mainlogo2.png"
-                        alt="Logo"
-                        width={collapsed ? 34 : 70}
+                        src="/images/mainlogo.png"
+                        alt="Live App Logo"
+                        width={collapsed ? 32 : 64}
                         height={40}
-                        className="transition-all duration-300"
+                        className="transition-all duration-300 object-contain"
                     />
                 </div>
 
                 {/* Nav */}
-                <nav className="flex-1 px-2 py-2 space-y-1">
+                <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
                     {sidebarItems.map((item) => {
-                        const isActive = pathname === item.href;
+                        const isActive = pathname === item.href || pathname.startsWith(item.href);
                         return (
                             <Link
                                 key={item.label}
                                 href={item.href}
+                                title={collapsed ? item.label : undefined}
+                                onClick={() => setMobileOpen(false)}
                                 className={cn(
-                                    "transition-all duration-150 flex items-center gap-3 px-4 py-3 rounded-xl",
+                                    "transition-all duration-150 flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium",
                                     isActive
-                                        ? "bg-primary text-white shadow-lg shadow-primary/20"
-                                        : "text-neutral-400 hover:bg-neutral-900 hover:text-white"
+                                        ? "bg-primary text-white shadow-md shadow-primary/25"
+                                        : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"
                                 )}
                             >
                                 <item.icon
-                                    className={cn("w-5 h-5", isActive ? "text-white" : "text-neutral-400")}
+                                    className={cn("w-5 h-5 flex-shrink-0", isActive ? "text-white" : "text-gray-400")}
                                 />
-                                {!collapsed && <span className="font-medium text-sm">{item.label}</span>}
+                                {!collapsed && <span>{item.label}</span>}
                             </Link>
                         );
                     })}
                 </nav>
 
-                {/* Bottom */}
-                <div className="px-2 py-4 border-t border-neutral-800 space-y-1">
+                {/* Bottom Items */}
+                <div className="px-3 py-4 border-t border-gray-100 space-y-1">
                     {bottomItems.map((item) => (
                         <Link
                             key={item.label}
                             href={item.href}
-                            className="transition-all duration-150 flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:bg-neutral-900 hover:text-white"
+                            title={collapsed ? item.label : undefined}
+                            onClick={() => setMobileOpen(false)}
+                            className={cn(
+                                "transition-all duration-150 flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium",
+                                pathname === item.href
+                                    ? "bg-primary text-white shadow-md shadow-primary/25"
+                                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"
+                            )}
                         >
-                            <item.icon className="w-5 h-5 text-neutral-400" />
-                            {!collapsed && <span className="font-medium text-sm">{item.label}</span>}
+                            <item.icon className={cn("w-5 h-5 flex-shrink-0", pathname === item.href ? "text-white" : "text-gray-400")} />
+                            {!collapsed && <span>{item.label}</span>}
                         </Link>
                     ))}
-
-                    <button
-                        onClick={handleLogout}
-                        className="w-full transition-all duration-150 flex items-center gap-3 px-4 py-3 rounded-xl text-neutral-400 hover:bg-red-900 hover:text-red-400"
-                    >
-                        <LogOut className="w-5 h-5 text-neutral-400" />
-                        {!collapsed && <span className="font-medium text-sm">Logout</span>}
-                    </button>
                 </div>
 
-                {/* Collapse button (desktop) */}
+                {/* Collapse button (desktop only) */}
                 <button
                     onClick={() => setCollapsed(!collapsed)}
-                    className="hidden lg:flex absolute top-6 -right-3 bg-neutral-950 text-white p-1.5 rounded-md shadow-md hover:scale-105 transition-all duration-300 border border-neutral-800"
-                    aria-label={collapsed ? 'Expand' : 'Collapse'}
+                    className="hidden lg:flex absolute top-6 -right-3 bg-white text-gray-500 p-1 rounded-md shadow-md hover:scale-105 transition-all duration-200 border border-gray-200"
+                    aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
                 >
-                    {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+                    {collapsed ? <ChevronRight size={13} /> : <ChevronLeft size={13} />}
                 </button>
             </aside>
         </>
