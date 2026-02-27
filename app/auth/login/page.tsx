@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+
 import {
     Eye,
     EyeOff,
@@ -55,10 +56,12 @@ export default function LoginPage() {
     return (
         <div className="h-screen w-full flex overflow-hidden">
             <div className="hidden lg:block lg:w-1/2 h-full bg-[#8B5CF6] relative">
-                <img
-                    src="/images/loginimage.png"
+                <Image
+                    src="/images/patentimage.png"
                     alt="Medical Staff"
-                    className="absolute inset-0 w-full h-full object-cover object-center"
+                    fill
+                    className="object-cover object-center"
+                    priority
                 />
                 {/* Purple overlay gradient for better text contrast if needed, mostly for aesthetic matching */}
                 <div className="absolute inset-0 bg-purple-900/10 mix-blend-multiply"></div>
@@ -184,13 +187,13 @@ export default function LoginPage() {
 
                             <div className="grid grid-cols-3 gap-3">
                                 <button className="flex items-center justify-center py-2.5 border border-neutral-100 rounded-xl hover:bg-neutral-50 hover:border-neutral-200 transition-all duration-200">
-                                    <img src="/images/Glogo.png" alt="Google" className="w-5 h-5" />
+                                    <Image src="/images/Glogo.png" alt="Google" width={20} height={20} className="w-5 h-5" />
                                 </button>
                                 <button className="flex items-center justify-center py-2.5 border border-neutral-100 rounded-xl hover:bg-neutral-50 hover:border-neutral-200 transition-all duration-200">
-                                    <img src="/images/Flogo.png" alt="Facebook" className="w-5 h-5" />
+                                    <Image src="/images/Flogo.png" alt="Facebook" width={20} height={20} className="w-5 h-5" />
                                 </button>
                                 <button className="flex items-center justify-center py-2.5 border border-neutral-100 rounded-xl hover:bg-neutral-50 hover:border-neutral-200 transition-all duration-200">
-                                    <img src="/images/Alogo.png" alt="Apple" className="w-5 h-5" />
+                                    <Image src="/images/Alogo.png" alt="Apple" width={20} height={20} className="w-5 h-5" />
                                 </button>
                             </div>
                         </div>

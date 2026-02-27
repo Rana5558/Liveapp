@@ -180,10 +180,12 @@ export default function PatientLoginPage() {
 
             {/* Right Side: Image with Overlay Buttons */}
             <div className="hidden lg:flex lg:w-1/2 h-full bg-gradient-to-br from-purple-900 to-blue-900 relative overflow-hidden">
-                <img
+                <Image
                     src="/images/patentimage.png"
                     alt="Medical AI"
-                    className="absolute inset-0 w-full h-full object-cover object-center"
+                    fill
+                    className="object-cover object-center"
+                    priority
                 />
                 <div className="absolute inset-0 bg-purple-900/20 mix-blend-multiply"></div>
 

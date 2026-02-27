@@ -2,11 +2,12 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Mail, Lock, User, Eye, EyeOff, Loader2, Calendar, X, Phone } from 'lucide-react';
+import {  Eye, EyeOff, Loader2, Calendar, X, } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, setLoading } from '@/lib/features/auth/authSlice';
 import { RootState } from '@/lib/store';
 import { useRouter } from 'next/navigation';
+import Image from "next/image";
 
 export default function RegisterPage() {
     const [email, setEmail] = useState('');
@@ -48,10 +49,12 @@ export default function RegisterPage() {
         <div className="h-screen w-full flex overflow-hidden">
             {/* Left Side: Image Only */}
             <div className="hidden lg:block lg:w-1/2 h-full bg-[#8B5CF6] relative">
-                <img
+                <Image
                     src="/images/loginimage.png"
                     alt="Medical Staff"
-                    className="absolute inset-0 w-full h-full object-cover object-center"
+                    fill
+                    className="object-cover object-center"
+                    priority
                 />
                 <div className="absolute inset-0 bg-purple-900/10 mix-blend-multiply"></div>
             </div>
@@ -106,7 +109,7 @@ export default function RegisterPage() {
                                     <label className="text-xs font-semibold text-neutral-600 block">Phone Number</label>
                                     <div className="flex gap-2">
                                         <div className="flex items-center gap-2 px-3 py-3 border border-neutral-200 rounded-lg bg-white cursor-pointer hover:bg-neutral-50 transition-colors min-w-[100px]">
-                                            <img src="https://flagcdn.com/w20/us.png" alt="US" className="w-5 h-auto rounded-sm shrink-0" />
+                                            <Image src="https://flagcdn.com/w20/us.png" alt="US" width={20} height={14} className="rounded-sm shrink-0" unoptimized />
                                             <span className="text-sm font-medium text-neutral-600">+1</span>
                                             <svg height="16" width="16" viewBox="0 0 20 20" aria-hidden="true" focusable="false" className="text-neutral-400 ml-auto"><path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"></path></svg>
                                         </div>
@@ -196,13 +199,13 @@ export default function RegisterPage() {
 
                             <div className="grid grid-cols-3 gap-3">
                                 <button className="flex items-center justify-center py-2.5 border border-neutral-100 rounded-xl hover:bg-neutral-50 hover:border-neutral-200 transition-all duration-200">
-                                    <img src="/images/Glogo.png" alt="Google" className="w-5 h-5" />
+                                    <Image src="/images/Glogo.png" alt="Google" width={20} height={20} className="w-5 h-5" />
                                 </button>
                                 <button className="flex items-center justify-center py-2.5 border border-neutral-100 rounded-xl hover:bg-neutral-50 hover:border-neutral-200 transition-all duration-200">
-                                    <img src="/images/Flogo.png" alt="Facebook" className="w-5 h-5" />
+                                    <Image src="/images/Flogo.png" alt="Facebook" width={20} height={20} className="w-5 h-5" />
                                 </button>
                                 <button className="flex items-center justify-center py-2.5 border border-neutral-100 rounded-xl hover:bg-neutral-50 hover:border-neutral-200 transition-all duration-200">
-                                    <img src="/images/Alogo.png" alt="Apple" className="w-5 h-5" />
+                                    <Image src="/images/Alogo.png" alt="Apple" width={20} height={20} className="w-5 h-5" />
                                 </button>
                             </div>
                         </div>
