@@ -130,7 +130,7 @@ export default function ChatHistoryPage() {
             {filtered.length > 0 && (
                 <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-2 pt-2 border-t border-neutral-800">
                     <span className="text-neutral-500 text-xs sm:text-sm">Showing 1 – 10 of 123 results</span>
-                    <button className="text-primary text-sm font-semibold hover:text-primary/80 transition-colors">
+                    <button className="ml-auto text-primary text-sm font-semibold hover:text-primary/80 transition-colors">
                         Load more →
                     </button>
                 </div>

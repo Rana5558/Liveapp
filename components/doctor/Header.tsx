@@ -33,7 +33,7 @@ export default function DoctorHeader({ title }: { title?: string }) {
             <div className="flex items-center gap-3">
                 <button
                     onClick={() => setMobileOpen(!mobileOpen)}
-                    className="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors"
+                    className="lg:hidden p-2 rounded-lg text-gray-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200"
                     aria-label="Toggle menu"
                 >
                     {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -50,7 +50,7 @@ export default function DoctorHeader({ title }: { title?: string }) {
                 </button>
 
                 {/* Help */}
-                <button className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-colors">
+                <button className="p-2 text-gray-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-all duration-200">
                     <HelpCircle className="w-5 h-5" />
                 </button>
 
@@ -58,7 +58,7 @@ export default function DoctorHeader({ title }: { title?: string }) {
                 <div className="h-6 w-px bg-gray-200 hidden sm:block" />
 
                 {/* User Avatar */}
-                <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 px-2 py-1 rounded-xl transition-colors">
+                <div className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-xl border border-transparent hover:bg-slate-100 hover:border-slate-200 transition-all duration-200">
                     <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-gray-200">
                         <img
                             src="https://api.dicebear.com/7.x/avataaars/svg?seed=Doctor"
