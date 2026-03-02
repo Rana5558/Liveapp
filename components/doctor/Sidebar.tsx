@@ -79,14 +79,17 @@ export default function DoctorSidebar() {
                                 title={collapsed ? item.label : undefined}
                                 onClick={() => setMobileOpen(false)}
                                 className={cn(
-                                    "transition-all duration-150 flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium",
+                                    "group transition-all duration-200 flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium",
                                     isActive
                                         ? "bg-primary text-white shadow-md shadow-primary/25"
-                                        : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"
+                                        : "text-gray-500 hover:bg-slate-100 hover:text-slate-700"
                                 )}
                             >
                                 <item.icon
-                                    className={cn("w-5 h-5 flex-shrink-0", isActive ? "text-white" : "text-gray-400")}
+                                    className={cn(
+                                        "w-5 h-5 flex-shrink-0 transition-colors duration-200",
+                                        isActive ? "text-white" : "text-gray-400 group-hover:text-slate-500"
+                                    )}
                                 />
                                 {!collapsed && <span>{item.label}</span>}
                             </Link>
@@ -103,13 +106,16 @@ export default function DoctorSidebar() {
                             title={collapsed ? item.label : undefined}
                             onClick={() => setMobileOpen(false)}
                             className={cn(
-                                "transition-all duration-150 flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium",
+                                "group transition-all duration-200 flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium",
                                 pathname === item.href
                                     ? "bg-primary text-white shadow-md shadow-primary/25"
-                                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"
+                                    : "text-gray-500 hover:bg-slate-100 hover:text-slate-700"
                             )}
                         >
-                            <item.icon className={cn("w-5 h-5 flex-shrink-0", pathname === item.href ? "text-white" : "text-gray-400")} />
+                            <item.icon className={cn(
+                                "w-5 h-5 flex-shrink-0 transition-colors duration-200",
+                                pathname === item.href ? "text-white" : "text-gray-400 group-hover:text-slate-500"
+                            )} />
                             {!collapsed && <span>{item.label}</span>}
                         </Link>
                     ))}
@@ -118,7 +124,7 @@ export default function DoctorSidebar() {
                 {/* Collapse button (desktop only) */}
                 <button
                     onClick={() => setCollapsed(!collapsed)}
-                    className="hidden lg:flex absolute top-6 -right-3 bg-white text-gray-500 p-1 rounded-md shadow-md hover:scale-105 transition-all duration-200 border border-gray-200"
+                    className="hidden lg:flex absolute top-6 -right-3 bg-white text-gray-400 hover:text-slate-600 p-1 rounded-md shadow-md hover:shadow-lg hover:scale-110 transition-all duration-200 border border-gray-200 hover:border-slate-300"
                     aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
                 >
                     {collapsed ? <ChevronRight size={13} /> : <ChevronLeft size={13} />}
