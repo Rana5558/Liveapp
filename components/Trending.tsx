@@ -10,7 +10,7 @@ export default function Trending() {
                     See Trending Prompts
                 </h2>
                 <p className="text-gray-400 text-sm sm:text-base mb-6 max-w-3xl mx-auto leading-relaxed">
-                    Discover endless creativity with PromptVerse. Generate diverse content effortlessly using prompts. Stay updated with real-time trends, automate tasks, and extract insights from any document or URL.
+                    Discover endless creativity with Aliveai.ai. Generate diverse content effortlessly using prompts. Stay updated with real-time trends, automate tasks, and extract insights from any document or URL.
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">

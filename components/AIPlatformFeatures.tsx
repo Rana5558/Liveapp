@@ -25,8 +25,8 @@ export default function AIPlatformFeatures() {
                             "Scan reports medicines",
                             "Schedule online appointments",
                             "Video Chat with real doctors"
-                        ].map((item, index) => (
-                            <li key={index} className="flex items-center gap-3">
+                        ].map((item) => (
+                            <li key={item} className="flex items-center gap-3">
                                 <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
                                     <CheckCircle2 className="w-3 h-3 text-primary" />
                                 </div>
@@ -70,8 +70,8 @@ export default function AIPlatformFeatures() {
                             "Enhanced Engagement",
                             "Deeper Understanding",
                             "Smooth Interactions"
-                        ].map((item, index) => (
-                            <li key={index} className="flex items-center gap-3">
+                        ].map((item) => (
+                            <li key={item} className="flex items-center gap-3">
                                 <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
                                     <CheckCircle2 className="w-3 h-3 text-primary" />
                                 </div>

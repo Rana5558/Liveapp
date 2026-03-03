@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, ArrowDown } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 const faqs = [
     {
@@ -53,7 +53,7 @@ export default function FAQ() {
             <div className="space-y-0">
                 {faqs.map((faq, index) => (
                     <div
-                        key={index}
+                        key={faq.id}
                         className="py-8 border-b border-white/10 group transition-all duration-300"
                     >
                         <button

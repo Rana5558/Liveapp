@@ -8,9 +8,8 @@ import {
     Loader2,
     X
 } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUser, setLoading } from '@/lib/features/auth/authSlice';
-import { RootState } from '@/lib/store';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { loginUser, clearError } from '@/lib/features/auth/authSlice';
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 
@@ -20,36 +19,30 @@ export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const router = useRouter();
-    const { isLoading } = useSelector((state: RootState) => state.auth);
+    const { isLoading, error: authError } = useAppSelector((state) => state.auth);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
+        dispatch(clearError());
 
         if (!email || !password) {
             setError('Please fill in all fields');
             return;
         }
 
-        dispatch(setLoading(true));
+        const resultAction = await dispatch(loginUser({ email, password }));
 
-        // Simulate API call
-        setTimeout(() => {
-            if (email === 'doctor@example.com' && password === 'password123') {
-                dispatch(setUser({
-                    id: '1',
-                    name: 'Dr. Maya Sinclair',
-                    email: 'doctor@example.com',
-                    role: 'doctor'
-                }));
+        if (loginUser.fulfilled.match(resultAction)) {
+            const user = resultAction.payload;
+            if (user.role === 'doctor') {
                 router.push('/dashboard/docdashboard/home');
             } else {
-                setError('Invalid email or password. Use doctor@example.com / password123');
+                router.push('/dashboard/home');
             }
-            dispatch(setLoading(false));
-        }, 1500);
+        }
     };
 
     return (
@@ -94,7 +87,7 @@ export default function LoginPage() {
                                 Welcome back
                             </h1>
                             <p className="text-neutral-500">
-                                New to Musaki?{' '}
+                                New to Aliveai.ai?{' '}
                                 <Link href="/auth/register" className="font-semibold text-[#8B5CF6] hover:text-[#7C3AED] transition-colors">
                                     Sign up
                                 </Link>
@@ -103,10 +96,10 @@ export default function LoginPage() {
 
                         {/* Form */}
                         <form onSubmit={handleSubmit} className="space-y-5">
-                            {error && (
+                            {(error || authError) && (
                                 <div className="bg-red-50 text-red-500 p-3 rounded-lg text-sm font-medium border border-red-100 flex items-center gap-2 animate-in fade-in slide-in-from-top-2">
                                     <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
-                                    {error}
+                                    {error || authError}
                                 </div>
                             )}
 
