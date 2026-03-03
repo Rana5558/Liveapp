@@ -9,14 +9,20 @@ import CTA from "@/components/CTA";
 import Pricing from "@/components/Pricing";
 import Footer from "@/components/Footer";
 
+import ErrorBoundary from "@/components/ErrorBoundary";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white selection:bg-primary/30">
       <Navbar />
       <Hero />
       <Features />
-      <Trending />
-      <FAQ />
+      <ErrorBoundary>
+        <Trending />
+      </ErrorBoundary>
+      <ErrorBoundary>
+        <FAQ />
+      </ErrorBoundary>
       <AIPlatformFeatures />
       <CTA />
       <MoreFeatures />

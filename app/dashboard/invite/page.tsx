@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { UserPlus, Copy, Mail, CheckCheck, Link2, Users, Gift } from "lucide-react";
+import { Copy, Mail, CheckCheck, Link2, Users, Gift } from "lucide-react";
+import { toast } from "sonner";
 
 const referralLink = "https://alive.ai/invite?ref=USR-2024-XK9";
 
@@ -14,20 +15,39 @@ const invitedFriends = [
 export default function InvitePage() {
     const [email, setEmail] = useState("");
     const [copied, setCopied] = useState(false);
-    const [sent, setSent] = useState(false);
+    // const [sent, setSent] = useState(false);
 
-    const handleCopy = () => {
-        navigator.clipboard.writeText(referralLink);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+    const handleCopy = async () => {
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(referralLink);
+                setCopied(true);
+                toast.success("Link copied to clipboard!");
+                setTimeout(() => setCopied(false), 2000);
+            } else {
+                // Fallback for non-secure contexts
+                const textArea = document.createElement("textarea");
+                textArea.value = referralLink;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textArea);
+                setCopied(true);
+                toast.success("Link copied to clipboard!");
+                setTimeout(() => setCopied(false), 2000);
+            }
+        } catch (err) {
+            console.error("Failed to copy: ", err);
+            toast.error("Failed to copy link. Please try manually.");
+        }
     };
 
     const handleSendInvite = (e: React.FormEvent) => {
         e.preventDefault();
         if (!email.trim()) return;
-        setSent(true);
+
+        toast.success(`Invite sent successfully to ${email}!`);
         setEmail("");
-        setTimeout(() => setSent(false), 3000);
     };
 
     return (
@@ -91,14 +111,9 @@ export default function InvitePage() {
                                 disabled={!email.trim()}
                                 className="px-5 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-sm transition-all shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap w-full sm:w-auto"
                             >
-                                {sent ? "Sent! ✓" : "Send Invite"}
+                                Send Invite
                             </button>
                         </form>
-                        {sent && (
-                            <p className="text-green-400 text-sm font-medium">
-                                ✓ Invite sent successfully!
-                            </p>
-                        )}
                     </div>
 
                     {/* Invited Friends List */}

@@ -7,9 +7,8 @@ import {
     EyeOff,
     X
 } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUser, setLoading } from '@/lib/features/auth/authSlice';
-import { RootState } from '@/lib/store';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { loginUser } from '@/lib/features/auth/authSlice';
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 
@@ -21,9 +20,9 @@ export default function PatientRegisterPage() {
     const [error, setError] = useState('');
     const [agreedToTerms, setAgreedToTerms] = useState(false);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const router = useRouter();
-    const { isLoading } = useSelector((state: RootState) => state.auth);
+    const { isLoading } = useAppSelector((state) => state.auth);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -44,26 +43,18 @@ export default function PatientRegisterPage() {
             return;
         }
 
-        dispatch(setLoading(true));
+        const resultAction = await dispatch(loginUser({ email, password }));
 
-        // Simulate API call
-        setTimeout(() => {
-            dispatch(setUser({
-                id: Math.random().toString(),
-                name: fullName,
-                email: email,
-                role: 'patient'
-            }));
+        if (loginUser.fulfilled.match(resultAction)) {
             router.push('/onboarding');
-            dispatch(setLoading(false));
-        }, 1500);
+        }
     };
 
     return (
         <div className="h-screen w-full flex overflow-hidden bg-neutral-900">
             {/* Left Side: Register Form - Dark Background */}
             <div className="w-full lg:w-1/2 h-full bg-neutral-900 flex flex-col relative">
-                <div className="absolute top-6 right-6 lg:hidden z-10">
+                <div className="absolute top-6 right-6 z-10">
                     <Link href="/" className="p-2 rounded-full hover:bg-neutral-800 transition-colors block">
                         <X className="w-6 h-6 text-neutral-400" />
                     </Link>
@@ -76,8 +67,8 @@ export default function PatientRegisterPage() {
                                 <Image
                                     src="/images/mainlogo2.png"
                                     alt="Logo"
-                                    width={150}
-                                    height={50}
+                                    width={100}
+                                    height={25}
                                     className="object-contain"
                                     priority
                                 />

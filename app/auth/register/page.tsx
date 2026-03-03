@@ -3,9 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Mail, Lock, User, Eye, EyeOff, Loader2, Calendar, X, Phone } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUser, setLoading } from '@/lib/features/auth/authSlice';
-import { RootState } from '@/lib/store';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { loginUser, clearError } from '@/lib/features/auth/authSlice';
 import { useRouter } from 'next/navigation';
 
 export default function RegisterPage() {
@@ -16,32 +15,25 @@ export default function RegisterPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const router = useRouter();
-    const { isLoading } = useSelector((state: RootState) => state.auth);
+    const { isLoading, error: authError } = useAppSelector((state) => state.auth);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
+        dispatch(clearError());
 
         if (!email || !password || !phoneNumber || !birthDate) {
             setError('Please fill in all required fields');
             return;
         }
 
-        dispatch(setLoading(true));
+        const resultAction = await dispatch(loginUser({ email, password }));
 
-        // Simulate API call
-        setTimeout(() => {
-            dispatch(setUser({
-                id: '1',
-                name: 'New User',
-                email,
-                role: 'doctor'
-            }));
+        if (loginUser.fulfilled.match(resultAction)) {
             router.push('/dashboard');
-            dispatch(setLoading(false));
-        }, 1500);
+        }
     };
 
     return (
@@ -73,7 +65,7 @@ export default function RegisterPage() {
                                 Hey there
                             </h1>
                             <p className="text-neutral-500">
-                                Already know Musaki?{' '}
+                                Already know Aliveai.ai?{' '}
                                 <Link href="/auth/login" className="font-semibold text-[#8B5CF6] hover:text-[#7C3AED] transition-colors">
                                     Log in
                                 </Link>
@@ -82,10 +74,10 @@ export default function RegisterPage() {
 
                         {/* Form */}
                         <form onSubmit={handleSubmit} className="space-y-5">
-                            {error && (
+                            {(error || authError) && (
                                 <div className="bg-red-50 text-red-500 p-3 rounded-lg text-sm font-medium border border-red-100 flex items-center gap-2 animate-in fade-in slide-in-from-top-2">
                                     <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
-                                    {error}
+                                    {error || authError}
                                 </div>
                             )}
 

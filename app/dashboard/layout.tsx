@@ -7,8 +7,7 @@ import Header from '@/components/doctor/Header';
 import PatientHeader from '@/components/patient/Header';
 import { PatientSidebarProvider } from '@/lib/contexts/PatientSidebarContext';
 import { DoctorSidebarProvider } from '@/lib/contexts/DoctorSidebarContext';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/lib/store';
+import { useAppSelector } from '@/lib/hooks';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -18,19 +17,10 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-    const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
-    const router = useRouter();
+    const { user } = useAppSelector((state) => state.auth);
 
-    useEffect(() => {
-        if (!isAuthenticated) {
-            router.push('/');
-        }
-    }, [isAuthenticated, router]);
-
-    if (!isAuthenticated) {
-        return null;
-    }
-
+    // In a real app, you might still want a loading check if user is null but token exists
+    // for initial mounting state while Redux hydrates.
     const isDoctor = user?.role === 'doctor';
     const SidebarComponent = isDoctor ? DoctorSidebar : PatientSidebar;
     const HeaderComponent = isDoctor ? Header : PatientHeader;

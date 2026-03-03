@@ -43,7 +43,7 @@ export default function Usage() {
 
         <div className="flex items-end gap-2 sm:gap-3 h-32 sm:h-40 px-1 sm:px-2">
           {barData.map((val, i) => (
-            <div key={i} className="flex-1 flex flex-col items-center gap-1.5">
+            <div key={dayLabels[i]} className="flex-1 flex flex-col items-center gap-1.5">
               <div
                 style={{ height: `${val}%` }}
                 className="w-full bg-primary/70 hover:bg-primary rounded-t-lg transition-all duration-300 cursor-pointer"
