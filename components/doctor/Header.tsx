@@ -8,8 +8,7 @@ import {
     Menu,
     X
 } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/lib/store';
+import { useAppSelector } from '@/lib/hooks';
 import { useDoctorSidebar } from '@/lib/contexts/DoctorSidebarContext';
 import { usePathname } from 'next/navigation';
 
@@ -22,7 +21,7 @@ const PATH_TITLES: Record<string, string> = {
 };
 
 export default function DoctorHeader({ title }: { title?: string }) {
-    const { user } = useSelector((state: RootState) => state.auth);
+    const { user } = useAppSelector((state) => state.auth);
     const { mobileOpen, setMobileOpen } = useDoctorSidebar();
     const pathname = usePathname();
     const pageTitle = title ?? PATH_TITLES[pathname] ?? 'Dashboard';

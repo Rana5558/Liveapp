@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/lib/store";
+import { useAppSelector } from "@/lib/hooks";
 import {
     Mail,
     Phone,
@@ -22,7 +21,7 @@ import {
 /* ═══════════════════ MAIN PAGE ═══════════════════ */
 
 export default function ProfilePage() {
-    const { user } = useSelector((state: RootState) => state.auth);
+    const { user } = useAppSelector((state) => state.auth);
     const [isEditing, setIsEditing] = useState(false);
 
     const doctorName = user?.name || "Maya Sinclair";
@@ -300,7 +299,7 @@ export default function ProfilePage() {
                                 { degree: "Fellowship, Family Medicine", school: "Mayo Clinic", year: "2016 - 2018" },
                             ].map((edu, i) => (
                                 <div
-                                    key={i}
+                                    key={edu.degree}
                                     className="p-3 bg-gray-50/80 rounded-xl border border-gray-100 hover:border-primary/20 transition-colors"
                                 >
                                     <p className="text-sm font-semibold text-gray-700">{edu.degree}</p>
@@ -323,7 +322,7 @@ export default function ProfilePage() {
                                 { name: "Advanced Cardiac Life Support", issued: "AHA" },
                                 { name: "Pediatric Advanced Life Support", issued: "AHA" },
                             ].map((cert, i) => (
-                                <div key={i} className="flex items-start gap-2.5">
+                                <div key={cert.name} className="flex items-start gap-2.5">
                                     <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-1.5" />
                                     <div>
                                         <p className="text-sm font-medium text-gray-700">{cert.name}</p>
@@ -344,7 +343,7 @@ export default function ProfilePage() {
                                 { label: "Avg. Rating", value: "4.8", color: "text-amber-500" },
                                 { label: "Consultations", value: "3,450", color: "text-blue-600" },
                             ].map((stat, i) => (
-                                <div key={i} className="bg-gray-50/80 rounded-xl p-3 text-center border border-gray-100">
+                                <div key={stat.label} className="bg-gray-50/80 rounded-xl p-3 text-center border border-gray-100">
                                     <p className={`text-lg font-bold ${stat.color}`}>{stat.value}</p>
                                     <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mt-0.5">{stat.label}</p>
                                 </div>

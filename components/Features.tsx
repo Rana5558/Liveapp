@@ -1,30 +1,36 @@
 const features = [
     {
+        id: "feat-1",
         icon: "/images/logo1.png",
         title: "Diabetes Analysis",
         description: "Let our AI-powered service take the hard work out of content creation. Get started today with AI.",
     },
     {
+        id: "feat-2",
         icon: "/images/logo2.png",
         title: "Cardiovascular Analysis",
         description: "Access up-to-date information on any topic during your conversations with AI-Con.",
     },
     {
+        id: "feat-3",
         icon: "/images/logo3.png",
         title: "Emotional Intelligence",
         description: "Enhances the empathetic aspect of your interactions, making your conversations more meaningful.",
     },
     {
+        id: "feat-4",
         icon: "/images/logo4.png",
         title: "Liver Condition Analysis",
         description: "AI-Con offers a variety of personalities for your AI companion, such as Explorer, Sage, etc.",
     },
     {
+        id: "feat-5",
         icon: "/images/logo5.png",
         title: "Reading Reports",
         description: "AI-Con provides dynamic topic suggestions based on your interests and previous conversations.",
     },
     {
+        id: "feat-6",
         icon: "/images/logo6.png",
         title: "OPD on Fingertips",
         description: "Personalization makes your interactions more engaging and tailored to your unique needs.",
@@ -49,9 +55,9 @@ export default function Features() {
 
             {/* Feature Cards */}
             <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-0">
-                {features.map((feature, index) => (
+                {features.map((feature) => (
                     <div
-                        key={index}
+                        key={feature.id}
                         className="group relative p-8 h-full rounded-2xl bg-[#0F0F0F] border border-white/5
                                    hover:border-white/10 transition-all duration-300 flex flex-col items-center text-center space-y-4
                                    shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/40"

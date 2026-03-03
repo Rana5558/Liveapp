@@ -9,11 +9,13 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "AlvesAI - Unlock The Power Of Artificial Intelligence",
-  description: "Instant Content Generation with AI. The biggest revolution of the century.",
+  title: "Aliveai.ai — AI-Powered Healthcare Platform",
+  description: "Connect with doctors, get AI health insights, and manage your health — all in one place. Powered by Aliveai.ai.",
 };
 
 import StoreProvider from "@/components/StoreProvider";
+
+import { Toaster } from "sonner";
 
 export default function RootLayout({
   children,
@@ -25,6 +27,7 @@ export default function RootLayout({
       <body className={`${outfit.variable} font-sans antialiased text-white bg-black`}>
         <StoreProvider>
           {children}
+          <Toaster position="top-right" richColors theme="dark" />
         </StoreProvider>
       </body>
     </html>

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function PricingSection() {
+export default function Pricing() {
     return (
         <section className="w-full py-16 sm:py-20 px-4 sm:px-6 md:px-10 bg-[#0a0a0a]">
             {/* ---------- HEADER ---------- */}

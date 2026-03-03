@@ -9,13 +9,11 @@ import {
     Menu,
     X
 } from 'lucide-react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/lib/store';
+import { useAppSelector } from '@/lib/hooks';
 import { usePatientSidebar } from '@/lib/contexts/PatientSidebarContext';
 
 export default function PatientHeader({ title = "Chat With AI" }: { title?: string }) {
-    const { user } = useSelector((state: RootState) => state.auth);
+    const { user } = useAppSelector((state) => state.auth);
     const { setMobileOpen, mobileOpen } = usePatientSidebar();
 
     return (
