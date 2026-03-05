@@ -2,6 +2,9 @@
 
 import React, { useState } from "react";
 import { Copy, Mail, CheckCheck, Link2, Users, Gift } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { inviteSchema, InviteFormData } from "@/lib/validations/schemas";
 import { toast } from "sonner";
 
 const referralLink = "https://alive.ai/invite?ref=USR-2024-XK9";
@@ -13,53 +16,52 @@ const invitedFriends = [
 ];
 
 export default function InvitePage() {
-    const [email, setEmail] = useState("");
     const [copied, setCopied] = useState(false);
-    // const [sent, setSent] = useState(false);
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors, isValid, isSubmitting },
+    } = useForm<InviteFormData>({
+        resolver: zodResolver(inviteSchema),
+        mode: "onChange",
+    });
 
     const handleCopy = async () => {
         try {
             if (navigator.clipboard && window.isSecureContext) {
                 await navigator.clipboard.writeText(referralLink);
-                setCopied(true);
-                toast.success("Link copied to clipboard!");
-                setTimeout(() => setCopied(false), 2000);
             } else {
-                // Fallback for non-secure contexts
                 const textArea = document.createElement("textarea");
                 textArea.value = referralLink;
                 document.body.appendChild(textArea);
                 textArea.select();
                 document.execCommand("copy");
                 document.body.removeChild(textArea);
-                setCopied(true);
-                toast.success("Link copied to clipboard!");
-                setTimeout(() => setCopied(false), 2000);
             }
+            setCopied(true);
+            toast.success("Link copied to clipboard!");
+            setTimeout(() => setCopied(false), 2000);
         } catch (err) {
             console.error("Failed to copy: ", err);
             toast.error("Failed to copy link. Please try manually.");
         }
     };
 
-    const handleSendInvite = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!email.trim()) return;
-
-        toast.success(`Invite sent successfully to ${email}!`);
-        setEmail("");
+    const onSubmit = (data: InviteFormData) => {
+        toast.success(`Invite sent successfully to ${data.email}!`);
+        reset();
     };
 
     return (
         <div className="px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 lg:pt-8 space-y-5 sm:space-y-6">
-            {/* Page Header */}
             <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1 sm:mb-2">Invite People</h1>
                 <p className="text-neutral-400 text-sm sm:text-base">Bring your friends and family to Alive.ai — earn rewards together</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6">
-                {/* Left: Invite Actions — full width on mobile/tablet */}
                 <div className="lg:col-span-2 space-y-4 sm:space-y-5">
                     {/* Referral Link */}
                     <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-5 sm:p-6 space-y-4">
@@ -98,36 +100,42 @@ export default function InvitePage() {
                                 <p className="text-neutral-500 text-xs">Send a direct invite to their inbox</p>
                             </div>
                         </div>
-                        <form onSubmit={handleSendInvite} className="flex flex-col sm:flex-row gap-3">
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="friend@example.com"
-                                className="flex-1 bg-neutral-950 border border-neutral-800 text-white placeholder-neutral-600 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all"
-                            />
-                            <button
-                                type="submit"
-                                disabled={!email.trim()}
-                                className="px-5 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-sm transition-all shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap w-full sm:w-auto"
-                            >
-                                Send Invite
-                            </button>
+                        <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-2">
+                            <div className="flex flex-col sm:flex-row gap-3">
+                                <div className="flex-1 space-y-1">
+                                    <input
+                                        type="email"
+                                        {...register("email")}
+                                        placeholder="friend@example.com"
+                                        className={`w-full bg-neutral-950 border text-white placeholder-neutral-600 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 transition-all ${errors.email
+                                            ? "border-red-500 focus:ring-red-500/30"
+                                            : "border-neutral-800 focus:ring-primary/40 focus:border-primary/50"
+                                            }`}
+                                    />
+                                    {errors.email && (
+                                        <p className="text-xs text-red-400">{errors.email.message}</p>
+                                    )}
+                                </div>
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting || !isValid}
+                                    className="px-5 py-3 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-sm transition-all shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap w-full sm:w-auto"
+                                >
+                                    {isSubmitting ? "Sending..." : "Send Invite"}
+                                </button>
+                            </div>
                         </form>
                     </div>
 
                     {/* Invited Friends List */}
                     <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-5 sm:p-6 space-y-4">
                         <div className="flex items-center justify-between">
-                            <p className="text-white font-semibold text-sm sm:text-base">People You've Invited</p>
+                            <p className="text-white font-semibold text-sm sm:text-base">People You&apos;ve Invited</p>
                             <span className="text-xs text-neutral-500">{invitedFriends.length} invited</span>
                         </div>
                         <div className="space-y-3">
                             {invitedFriends.map((friend) => (
-                                <div
-                                    key={friend.id}
-                                    className="flex items-center gap-3 sm:gap-4 bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3"
-                                >
+                                <div key={friend.id} className="flex items-center gap-3 sm:gap-4 bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3">
                                     <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-neutral-800 flex items-center justify-center text-white font-bold text-sm shrink-0">
                                         {friend.name.charAt(0)}
                                     </div>
@@ -150,20 +158,15 @@ export default function InvitePage() {
                     </div>
                 </div>
 
-                {/* Right: Stats & Rewards — row on mobile/tablet, column on desktop */}
+                {/* Right: Stats & Rewards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
-                    {/* Stats */}
                     <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-5 sm:p-6 space-y-4">
                         <div className="flex items-center gap-2">
                             <Users className="w-4 h-4 text-primary" />
                             <p className="text-white font-semibold text-sm">Referral Stats</p>
                         </div>
                         <div className="space-y-3">
-                            {[
-                                { label: "Invited", value: "3" },
-                                { label: "Joined", value: "2" },
-                                { label: "Pending", value: "1" },
-                            ].map((stat) => (
+                            {[{ label: "Invited", value: "3" }, { label: "Joined", value: "2" }, { label: "Pending", value: "1" }].map((stat) => (
                                 <div key={stat.label} className="flex items-center justify-between py-2 border-b border-neutral-800 last:border-0">
                                     <span className="text-neutral-400 text-sm">{stat.label}</span>
                                     <span className="text-white font-bold">{stat.value}</span>
@@ -172,7 +175,6 @@ export default function InvitePage() {
                         </div>
                     </div>
 
-                    {/* Rewards */}
                     <div className="bg-primary/5 border border-primary/20 rounded-xl p-5 sm:p-6 space-y-3">
                         <div className="flex items-center gap-2">
                             <Gift className="w-4 h-4 text-primary" />
