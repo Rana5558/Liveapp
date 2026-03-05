@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Bell, Globe } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Preferences() {
   const [emailNotifs, setEmailNotifs] = useState(true);
@@ -75,7 +76,10 @@ export default function Preferences() {
             </select>
           </div>
         </div>
-        <button className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-sm transition-all shadow-lg shadow-primary/20">
+        <button
+          onClick={() => toast.success("Preferences saved successfully!")}
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-sm transition-all shadow-lg shadow-primary/20"
+        >
           Save Preferences →
         </button>
       </div>
