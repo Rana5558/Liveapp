@@ -81,4 +81,25 @@ button:disabled {
   opacity: 0.6;
 }
 
+/* ── Chat Input ──────────────────────────────────────────────── */
+.chat-input-no-border:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* ── Typing Indicator Animation ──────────────────────────────── */
+@keyframes typing-dot {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+@utility animate-typing-dot {
+  animation: typing-dot 1.2s ease-in-out infinite;
+}
 
