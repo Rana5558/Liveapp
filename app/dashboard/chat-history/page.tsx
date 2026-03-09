@@ -3,6 +3,11 @@
 import React, { useState } from "react";
 import { Search, MessageSquare, Edit2, X, Clock } from "lucide-react";
 
+const showComingSoon = (action: string) => {
+    // Placeholder for toast notification - can be replaced with actual toast library
+    alert(`${action} feature is coming soon!`);
+};
+
 const chatSections = [
     {
         label: "Today",
@@ -56,7 +61,7 @@ export default function ChatHistoryPage() {
                     placeholder="Search by name or summary..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full bg-neutral-900 border border-neutral-800 text-white placeholder-neutral-600 rounded-xl px-4 py-3 pl-11 pr-11 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all"
+                    className="w-full bg-neutral-900 border border-neutral-800 text-white placeholder-neutral-600 rounded-xl px-4 py-3 pl-11 pr-11 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all "
                 />
                 {search && (
                     <button
@@ -115,7 +120,11 @@ export default function ChatHistoryPage() {
                                         </div>
 
                                         {/* Edit Button */}
-                                        <button className="p-1.5 sm:p-2 rounded-lg hover:bg-neutral-700 text-neutral-500 hover:text-white transition-colors opacity-0 group-hover:opacity-100 shrink-0">
+                                        <button
+                                            onClick={() => showComingSoon("Rename chat")}
+                                            className="p-1.5 sm:p-2 rounded-lg hover:bg-neutral-700 text-neutral-500 hover:text-white transition-colors opacity-0 group-hover:opacity-100 shrink-0"
+                                            title="Rename chat"
+                                        >
                                             <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                         </button>
                                     </div>
@@ -130,7 +139,10 @@ export default function ChatHistoryPage() {
             {filtered.length > 0 && (
                 <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-2 pt-2 border-t border-neutral-800">
                     <span className="text-neutral-500 text-xs sm:text-sm">Showing 1 – 10 of 123 results</span>
-                    <button className="ml-auto text-primary text-sm font-semibold hover:text-primary/80 transition-colors">
+                    <button
+                        onClick={() => showComingSoon("Load more chats")}
+                        className="ml-auto text-primary text-sm font-semibold hover:text-primary/80 transition-colors"
+                    >
                         Load more →
                     </button>
                 </div>

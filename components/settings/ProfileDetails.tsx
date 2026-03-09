@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { Pencil, Camera } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   profileSchema, ProfileFormData,
@@ -20,7 +21,7 @@ export default function ProfileDetails() {
   const {
     register: regProfile,
     handleSubmit: handleProfile,
-    watch: watchProfile,
+    control: profileControl,
     formState: { errors: profileErrors, isValid: profileValid, isSubmitting: profileSubmitting },
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
@@ -37,15 +38,17 @@ export default function ProfileDetails() {
   const {
     register: regPassword,
     handleSubmit: handlePassword,
-    watch: watchPassword,
     reset: resetPassword,
+    control: passwordControl,
     formState: { errors: passwordErrors, isValid: passwordValid, isSubmitting: passwordSubmitting },
   } = useForm<PasswordFormData>({
     resolver: zodResolver(passwordSchema),
     mode: "onChange",
   });
 
-  const passwordValue = watchPassword("password", "");
+  const fullNameValue = useWatch({ name: "fullName", control: profileControl });
+  const emailValue = useWatch({ name: "email", control: profileControl });
+  const passwordValue = useWatch({ name: "password", control: passwordControl, defaultValue: "" });
 
   // password strength
   const getStrength = (pwd: string) => {
@@ -73,18 +76,20 @@ export default function ProfileDetails() {
       {/* Avatar + Name Card */}
       <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-5 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5">
         <div className="relative shrink-0">
-          <img
+          <Image
             src="https://randomuser.me/api/portraits/men/32.jpg"
             alt="Profile"
-            className="w-20 h-20 rounded-2xl object-cover border-2 border-neutral-700"
+            width={80}
+            height={80}
+            className="rounded-2xl object-cover border-2 border-neutral-700"
           />
           <button className="absolute -bottom-1.5 -right-1.5 bg-primary text-white p-1.5 rounded-full shadow hover:bg-primary/90 transition-colors border-2 border-neutral-900">
             <Camera className="w-3.5 h-3.5" />
           </button>
         </div>
         <div className="text-center sm:text-left">
-          <p className="text-white font-bold text-lg">{watchProfile("fullName")}</p>
-          <p className="text-neutral-400 text-sm">{watchProfile("email")}</p>
+          <p className="text-white font-bold text-lg">{fullNameValue}</p>
+          <p className="text-neutral-400 text-sm">{emailValue}</p>
           <span className="inline-flex items-center text-xs font-semibold px-2.5 py-0.5 mt-2 rounded-full bg-primary/10 text-primary border border-primary/20">
             Patient Account
           </span>

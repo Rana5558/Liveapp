@@ -67,14 +67,14 @@ export default function PatientDashboardPage() {
                                     setMessage(problem.description);
                                 }}
                                 className={`p-3 sm:p-4 rounded-xl border-2 transition-all duration-200 text-left group flex flex-col gap-2 sm:gap-3 ${isSelected
-                                        ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
-                                        : 'border-neutral-800 bg-neutral-900 hover:border-neutral-700 hover:bg-neutral-800'
+                                    ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
+                                    : 'border-neutral-800 bg-neutral-900 hover:border-neutral-700 hover:bg-neutral-800'
                                     }`}
                             >
                                 <div
                                     className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center transition-colors ${isSelected
-                                            ? 'bg-primary text-white'
-                                            : 'bg-neutral-800 text-neutral-400 group-hover:text-primary'
+                                        ? 'bg-primary text-white'
+                                        : 'bg-neutral-800 text-neutral-400 group-hover:text-primary'
                                         }`}
                                 >
                                     <Icon className="w-4 h-4" />
@@ -96,7 +96,10 @@ export default function PatientDashboardPage() {
             {/* Chat Input */}
             <div className="flex-1 flex flex-col justify-end pb-2 sm:pb-4">
                 <div className="flex flex-col items-center gap-2 sm:gap-3 max-w-2xl mx-auto w-full">
-                    <div className="w-full flex items-center gap-2 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/20 rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2.5 sm:py-3 transition-all">
+
+                    <div className="w-full flex items-center gap-2 bg-neutral-900 border border-neutral-800 
+                     rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2.5 sm:py-3 transition-all
+                     focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary/50">
 
                         <Paperclip className="w-4 h-4 text-neutral-500 cursor-pointer hover:text-neutral-300 transition-colors shrink-0" />
 
@@ -105,8 +108,10 @@ export default function PatientDashboardPage() {
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                             placeholder="Enter a prompt or pick a quick action above..."
-                            className="flex-1 bg-transparent text-white placeholder-neutral-600 outline-none text-xs sm:text-sm min-w-0"
+                            className="flex-1 bg-transparent text-white placeholder-neutral-600 
+                            outline-none focus:outline-none focus:ring-0 text-xs sm:text-sm min-w-0 chat-input-no-border"
                         />
+
 
                         <Mic className="w-4 h-4 text-neutral-500 cursor-pointer hover:text-neutral-300 transition-colors shrink-0" />
 

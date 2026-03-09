@@ -29,3 +29,56 @@ body {
 @utility bg-glow {
   box-shadow: 0 0 40px var(--primary-glow);
 }
+
+/* Accessible focus styles */
+*:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Screen reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Ensure sufficient color contrast for text */
+:root {
+  --foreground-high-contrast: #FFFFFF;
+  --text-primary: #FFFFFF;
+  --text-secondary: #D1D5DB;
+  --text-tertiary: #9CA3AF;
+}
+
+/* Improved form input focus states */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Ensure visible focus for disabled elements context */
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+

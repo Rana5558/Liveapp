@@ -13,6 +13,10 @@ import Image from "next/image";
 import { toast } from 'sonner';
 import { useState } from 'react';
 
+const showComingSoon = (action: string) => {
+    toast.info(`${action} is coming soon!`);
+};
+
 export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
     const dispatch = useAppDispatch();
@@ -48,9 +52,10 @@ export default function LoginPage() {
     return (
         <div className="h-screen w-full flex overflow-hidden">
             <div className="hidden lg:block lg:w-1/2 h-full bg-[#8B5CF6] relative">
-                <img
+                <Image
                     src="/images/loginimage.png"
                     alt="Medical Staff"
+                    fill
                     className="absolute inset-0 w-full h-full object-cover object-center"
                 />
                 <div className="absolute inset-0 bg-purple-900/10 mix-blend-multiply"></div>
@@ -87,12 +92,13 @@ export default function LoginPage() {
                             </p>
                         </div>
 
-                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate role="form" aria-label="Doctor login form">
                             <div className="space-y-4">
                                 {/* Email */}
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-neutral-600 block">Email address</label>
+                                    <label htmlFor="email" className="text-xs font-semibold text-neutral-600 block">Email address</label>
                                     <input
+                                        id="email"
                                         type="email"
                                         {...register('email')}
                                         className={`block w-full px-4 py-3 rounded-lg border text-neutral-900 placeholder-neutral-400 focus:ring-2 outline-none transition-all ${errors.email
@@ -100,17 +106,19 @@ export default function LoginPage() {
                                             : 'border-neutral-200 focus:border-[#8B5CF6] focus:ring-[#8B5CF6]/20'
                                             }`}
                                         placeholder="Email address"
+                                        aria-describedby={errors.email ? "email-error" : undefined}
                                     />
                                     {errors.email && (
-                                        <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>
+                                        <p id="email-error" role="alert" className="text-xs text-red-500 mt-1">{errors.email.message}</p>
                                     )}
                                 </div>
 
                                 {/* Password */}
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-neutral-600 block">Your password</label>
+                                    <label htmlFor="password" className="text-xs font-semibold text-neutral-600 block">Your password</label>
                                     <div className="relative">
                                         <input
+                                            id="password"
                                             type={showPassword ? "text" : "password"}
                                             {...register('password')}
                                             className={`block w-full px-4 py-3 rounded-lg border text-neutral-900 placeholder-neutral-400 focus:ring-2 outline-none transition-all pr-10 ${errors.password
@@ -118,17 +126,19 @@ export default function LoginPage() {
                                                 : 'border-neutral-200 focus:border-[#8B5CF6] focus:ring-[#8B5CF6]/20'
                                                 }`}
                                             placeholder="••••••••••••"
+                                            aria-describedby={errors.password ? "password-error" : undefined}
                                         />
                                         <button
                                             type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 transition-colors p-1"
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 transition-colors p-1 focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] rounded"
+                                            aria-label={showPassword ? "Hide password" : "Show password"}
                                         >
                                             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                                         </button>
                                     </div>
                                     {errors.password && (
-                                        <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>
+                                        <p id="password-error" role="alert" className="text-xs text-red-500 mt-1">{errors.password.message}</p>
                                     )}
                                 </div>
                             </div>
@@ -146,9 +156,13 @@ export default function LoginPage() {
                                     <input type="checkbox" className="h-4 w-4 rounded border-neutral-300 text-[#8B5CF6] focus:ring-[#8B5CF6] cursor-pointer" />
                                     <span className="ml-2 text-sm text-neutral-600 group-hover:text-neutral-900 transition-colors">Remember me</span>
                                 </label>
-                                <a href="#" className="text-sm font-semibold text-[#8B5CF6] hover:text-[#7C3AED] transition-colors">
+                                <button
+                                    type="button"
+                                    onClick={() => showComingSoon("Password reset")}
+                                    className="text-sm font-semibold text-[#8B5CF6] hover:text-[#7C3AED] transition-colors bg-transparent border-none cursor-pointer"
+                                >
                                     Forgot password?
-                                </a>
+                                </button>
                             </div>
                         </form>
 
@@ -163,14 +177,26 @@ export default function LoginPage() {
                                 </div>
                             </div>
                             <div className="grid grid-cols-3 gap-3">
-                                <button className="flex items-center justify-center py-2.5 border border-neutral-100 rounded-xl hover:bg-neutral-50 hover:border-neutral-200 transition-all duration-200">
-                                    <img src="/images/Glogo.png" alt="Google" className="w-5 h-5" />
+                                <button
+                                    type="button"
+                                    onClick={() => showComingSoon("Google login")}
+                                    className="flex items-center justify-center py-2.5 border border-neutral-100 rounded-xl hover:bg-neutral-50 hover:border-neutral-200 transition-all duration-200"
+                                >
+                                    <Image src="/images/Glogo.png" alt="Google" width={20} height={20} />
                                 </button>
-                                <button className="flex items-center justify-center py-2.5 border border-neutral-100 rounded-xl hover:bg-neutral-50 hover:border-neutral-200 transition-all duration-200">
-                                    <img src="/images/Flogo.png" alt="Facebook" className="w-5 h-5" />
+                                <button
+                                    type="button"
+                                    onClick={() => showComingSoon("Facebook login")}
+                                    className="flex items-center justify-center py-2.5 border border-neutral-100 rounded-xl hover:bg-neutral-50 hover:border-neutral-200 transition-all duration-200"
+                                >
+                                    <Image src="/images/Flogo.png" alt="Facebook" width={20} height={20} />
                                 </button>
-                                <button className="flex items-center justify-center py-2.5 border border-neutral-100 rounded-xl hover:bg-neutral-50 hover:border-neutral-200 transition-all duration-200">
-                                    <img src="/images/Alogo.png" alt="Apple" className="w-5 h-5" />
+                                <button
+                                    type="button"
+                                    onClick={() => showComingSoon("Apple login")}
+                                    className="flex items-center justify-center py-2.5 border border-neutral-100 rounded-xl hover:bg-neutral-50 hover:border-neutral-200 transition-all duration-200"
+                                >
+                                    <Image src="/images/Alogo.png" alt="Apple" width={20} height={20} />
                                 </button>
                             </div>
                         </div>

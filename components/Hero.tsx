@@ -1,6 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
+
+const showComingSoon = (action: string) => {
+    alert(`${action} feature is coming soon!`);
+};
 
 export default function Hero() {
     return (
@@ -29,7 +35,10 @@ export default function Hero() {
                 </p>
 
                 <div className="pt-4">
-                    <button className="px-6 py-2.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white text-sm sm:text-base font-medium flex items-center gap-2 mx-auto hover:bg-white/20 transition-all shadow-[0_0_12px_rgba(255,255,255,0.06)]">
+                    <button
+                        onClick={() => showComingSoon("Diagnostic tool")}
+                        className="px-6 py-2.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white text-sm sm:text-base font-medium flex items-center gap-2 mx-auto hover:bg-white/20 transition-all shadow-[0_0_12px_rgba(255,255,255,0.06)]"
+                    >
                         Start Diagnostic <Sparkles className="w-4 h-4 text-primary" />
                     </button>
                 </div>

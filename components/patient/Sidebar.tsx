@@ -54,18 +54,21 @@ export default function PatientSidebar() {
 
       {/* Sidebar */}
       <aside
+        id="mobile-nav-sidebar"
         className={cn(
           "fixed lg:sticky top-0 left-0 z-50 h-screen transition-all duration-300",
           collapsed ? "w-[80px]" : "w-[260px]",
           mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
+        role="navigation"
+        aria-label="Sidebar navigation"
       >
         <div className="h-full bg-gradient-to-b from-[#3a3a3a] to-[#2c2c2c] text-white p-4 flex flex-col relative">
 
           {/* Mobile Close Button */}
           <button
             onClick={() => setMobileOpen(false)}
-            className="lg:hidden absolute top-4 right-4"
+            className="lg:hidden absolute top-4 right-4 focus:outline-none focus:ring-2 focus:ring-primary rounded-lg p-1"
             aria-label="Close sidebar"
           >
             <X size={20} />
@@ -98,7 +101,7 @@ export default function PatientSidebar() {
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
-                    "transition-all duration-200 flex items-center",
+                    "transition-all duration-200 flex items-center focus:outline-none focus:ring-2 focus:ring-primary",
                     collapsed
                       ? "justify-center w-12 h-12 rounded-xl"
                       : "gap-3 px-4 py-3 rounded-full",
@@ -147,7 +150,7 @@ export default function PatientSidebar() {
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
-                    "transition-all duration-200 flex items-center",
+                    "transition-all duration-200 flex items-center focus:outline-none focus:ring-2 focus:ring-primary",
                     collapsed
                       ? "justify-center w-10 h-10 rounded-xl"
                       : "gap-3 px-4 py-3 rounded-full",
@@ -180,14 +183,15 @@ export default function PatientSidebar() {
             })}
 
             {/* Doctor Button */}
-            <button
-              onClick={() => router.push("/doctor")}
+            <Link
+              href="/auth/login"
               className={cn(
-                "flex items-center justify-center mt-4 transition-all",
+                "flex items-center justify-center mt-4 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-700 focus:ring-primary",
                 collapsed
                   ? "w-12 h-12 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500"
                   : "w-full py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"
               )}
+              aria-label="Switch to doctor mode"
             >
               <Sparkles size={18} />
               {!collapsed && (
@@ -195,14 +199,15 @@ export default function PatientSidebar() {
                   Im a Doctor
                 </span>
               )}
-            </button>
+            </Link>
           </div>
 
           {/* Collapse Button: visible on tablet+ (md+) only; mobile uses header hamburger */}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="hidden lg:flex absolute top-6 -right-3 bg-white text-black p-1.5 rounded-md shadow-md hover:scale-105 transition-all duration-300"
+            className="hidden lg:flex absolute top-6 -right-3 bg-white text-black p-1.5 rounded-md shadow-md hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary"
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            aria-expanded={!collapsed}
           >
             {collapsed ? (
               <ChevronRight size={14} />

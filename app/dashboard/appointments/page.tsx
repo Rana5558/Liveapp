@@ -1,7 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { Calendar, Clock, User, ChevronDown, Plus } from "lucide-react";
+
+const showComingSoon = (action: string) => {
+    alert(`${action} feature is coming soon!`);
+};
 
 const appointments = [
     { id: 1, date: "Thu 15", time: "09:00am – 09:30am", name: "Dr. Stephine Claire", issue: "Fever", chatHistory: true, section: "May'23" },
@@ -39,7 +44,10 @@ export default function AppointmentsPage() {
                     <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1 sm:mb-2">Appointments</h1>
                     <p className="text-neutral-400 text-sm sm:text-base">Track and manage your upcoming and past appointments</p>
                 </div>
-                <button className="flex items-center justify-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary/90 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-primary/20 w-full sm:w-auto">
+                <button
+                    onClick={() => showComingSoon("Book appointment")}
+                    className="flex items-center justify-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary/90 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-primary/20 w-full sm:w-auto"
+                >
                     <Plus className="w-4 h-4" />
                     New Appointment
                 </button>
@@ -99,7 +107,10 @@ export default function AppointmentsPage() {
                                             </div>
 
                                             {/* Action — shows on mobile top-right */}
-                                            <button className="sm:hidden shrink-0 bg-white hover:bg-neutral-100 text-neutral-900 font-semibold px-4 py-1.5 rounded-xl shadow text-sm transition-colors flex items-center gap-1">
+                                            <button
+                                                onClick={() => showComingSoon("Edit appointment")}
+                                                className="sm:hidden shrink-0 bg-white hover:bg-neutral-100 text-neutral-900 font-semibold px-4 py-1.5 rounded-xl shadow text-sm transition-colors flex items-center gap-1"
+                                            >
                                                 Edit <ChevronDown className="w-3 h-3" />
                                             </button>
                                         </div>
@@ -118,15 +129,21 @@ export default function AppointmentsPage() {
                                                 <Calendar className="w-4 h-4 text-primary shrink-0" />
                                                 <span>Issue: <span className="text-white">{apt.issue}</span></span>
                                                 {apt.chatHistory && (
-                                                    <a href="#" className="text-primary text-xs font-semibold hover:text-primary/80 underline-offset-2 hover:underline">
+                                                    <button
+                                                        onClick={() => showComingSoon("View chat history")}
+                                                        className="text-primary text-xs font-semibold hover:text-primary/80 underline-offset-2 hover:underline bg-transparent border-none cursor-pointer"
+                                                    >
                                                         View Chat History →
-                                                    </a>
+                                                    </button>
                                                 )}
                                             </div>
                                         </div>
 
                                         {/* Action — hidden on mobile, shown on sm+ */}
-                                        <button className="hidden sm:flex shrink-0 bg-white hover:bg-neutral-100 text-neutral-900 font-semibold px-5 py-2 rounded-xl shadow text-sm transition-colors items-center gap-1">
+                                        <button
+                                            onClick={() => showComingSoon("Edit appointment")}
+                                            className="hidden sm:flex shrink-0 bg-white hover:bg-neutral-100 text-neutral-900 font-semibold px-5 py-2 rounded-xl shadow text-sm transition-colors items-center gap-1"
+                                        >
                                             Edit <ChevronDown className="w-3 h-3" />
                                         </button>
                                     </div>

@@ -2,15 +2,15 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Eye, EyeOff, X } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { patientRegisterSchema, PatientRegisterFormData } from '@/lib/validations/schemas';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { loginUser } from '@/lib/features/auth/authSlice';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import Image from "next/image";
 
 export default function PatientRegisterPage() {
     const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +22,7 @@ export default function PatientRegisterPage() {
     const {
         register,
         handleSubmit,
-        watch,
+        control,
         formState: { errors, isValid },
     } = useForm<PatientRegisterFormData>({
         resolver: zodResolver(patientRegisterSchema),
@@ -30,7 +30,7 @@ export default function PatientRegisterPage() {
     });
 
     // Password strength
-    const passwordValue = watch('password', '');
+    const passwordValue = useWatch({ control, name: 'password', defaultValue: '' });
     const getPasswordStrength = (pwd: string) => {
         if (!pwd) return { score: 0, label: '', color: '' };
         let score = 0;
@@ -77,47 +77,53 @@ export default function PatientRegisterPage() {
                             <p className="text-neutral-400">Kindly fill in your details to create an account</p>
                         </div>
 
-                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate role="form" aria-label="Patient registration form">
                             <div className="space-y-4">
                                 {/* Full Name */}
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-neutral-400 block">Your fullname*</label>
+                                    <label htmlFor="pat-fullname" className="text-xs font-semibold text-neutral-400 block">Your fullname*</label>
                                     <input
+                                        id="pat-fullname"
                                         type="text"
                                         {...register('fullName')}
                                         className={`block w-full px-4 py-3 rounded-lg border bg-neutral-800 text-white placeholder-neutral-500 focus:ring-2 outline-none transition-all ${errors.fullName ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : 'border-neutral-700 focus:border-[#8B5CF6] focus:ring-[#8B5CF6]/20'}`}
                                         placeholder="Enter your name"
+                                        aria-describedby={errors.fullName ? "pat-fullname-error" : undefined}
                                     />
-                                    {errors.fullName && <p className="text-xs text-red-400 mt-1">{errors.fullName.message}</p>}
+                                    {errors.fullName && <p id="pat-fullname-error" role="alert" className="text-xs text-red-400 mt-1">{errors.fullName.message}</p>}
                                 </div>
 
                                 {/* Email */}
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-neutral-400 block">Your email*</label>
+                                    <label htmlFor="pat-email" className="text-xs font-semibold text-neutral-400 block">Your email*</label>
                                     <input
+                                        id="pat-email"
                                         type="email"
                                         {...register('email')}
                                         className={`block w-full px-4 py-3 rounded-lg border bg-neutral-800 text-white placeholder-neutral-500 focus:ring-2 outline-none transition-all ${errors.email ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : 'border-neutral-700 focus:border-[#8B5CF6] focus:ring-[#8B5CF6]/20'}`}
                                         placeholder="Enter your email"
+                                        aria-describedby={errors.email ? "pat-email-error" : undefined}
                                     />
-                                    {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email.message}</p>}
+                                    {errors.email && <p id="pat-email-error" role="alert" className="text-xs text-red-400 mt-1">{errors.email.message}</p>}
                                 </div>
 
                                 {/* Password */}
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-neutral-400 block">Password*</label>
+                                    <label htmlFor="pat-password" className="text-xs font-semibold text-neutral-400 block">Password*</label>
                                     <div className="relative">
                                         <input
+                                            id="pat-password"
                                             type={showPassword ? "text" : "password"}
                                             {...register('password')}
                                             className={`block w-full px-4 py-3 rounded-lg border bg-neutral-800 text-white placeholder-neutral-500 focus:ring-2 outline-none transition-all pr-10 ${errors.password ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : 'border-neutral-700 focus:border-[#8B5CF6] focus:ring-[#8B5CF6]/20'}`}
                                             placeholder="Enter password"
+                                            aria-describedby={errors.password ? "pat-password-error" : undefined}
                                         />
-                                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-300 transition-colors p-1">
+                                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-300 transition-colors p-1 focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] rounded" aria-label={showPassword ? "Hide password" : "Show password"}>
                                             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                                         </button>
                                     </div>
-                                    {errors.password && <p className="text-xs text-red-400 mt-1">{errors.password.message}</p>}
+                                    {errors.password && <p id="pat-password-error" role="alert" className="text-xs text-red-400 mt-1">{errors.password.message}</p>}
                                     {/* Password strength */}
                                     {passwordValue.length > 0 && (
                                         <div className="space-y-1 mt-1">
@@ -133,19 +139,21 @@ export default function PatientRegisterPage() {
 
                                 {/* Confirm Password */}
                                 <div className="space-y-1.5">
-                                    <label className="text-xs font-semibold text-neutral-400 block">Confirm Password*</label>
+                                    <label htmlFor="pat-confirm-password" className="text-xs font-semibold text-neutral-400 block">Confirm Password*</label>
                                     <div className="relative">
                                         <input
+                                            id="pat-confirm-password"
                                             type={showConfirmPassword ? "text" : "password"}
                                             {...register('confirmPassword')}
                                             className={`block w-full px-4 py-3 rounded-lg border bg-neutral-800 text-white placeholder-neutral-500 focus:ring-2 outline-none transition-all pr-10 ${errors.confirmPassword ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20' : 'border-neutral-700 focus:border-[#8B5CF6] focus:ring-[#8B5CF6]/20'}`}
                                             placeholder="Re-enter password"
+                                            aria-describedby={errors.confirmPassword ? "pat-confirm-password-error" : undefined}
                                         />
-                                        <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-300 transition-colors p-1">
+                                        <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-300 transition-colors p-1 focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] rounded" aria-label={showConfirmPassword ? "Hide password" : "Show password"}>
                                             {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                                         </button>
                                     </div>
-                                    {errors.confirmPassword && <p className="text-xs text-red-400 mt-1">{errors.confirmPassword.message}</p>}
+                                    {errors.confirmPassword && <p id="pat-confirm-password-error" role="alert" className="text-xs text-red-400 mt-1">{errors.confirmPassword.message}</p>}
                                 </div>
 
                                 {/* Terms */}
@@ -196,7 +204,7 @@ export default function PatientRegisterPage() {
 
             {/* Right Side */}
             <div className="hidden lg:flex lg:w-1/2 h-full bg-gradient-to-br from-purple-900 to-blue-900 relative overflow-hidden">
-                <img src="/images/patentimage.png" alt="Medical AI" className="absolute inset-0 w-full h-full object-cover object-center" />
+                <Image src="/images/patentimage.png" alt="Medical AI" fill className="absolute inset-0 w-full h-full object-cover object-center" />
                 <div className="absolute inset-0 bg-purple-900/20 mix-blend-multiply"></div>
                 <div className="absolute bottom-8 left-0 right-0 flex items-center justify-center gap-4 px-8">
                     <Link href="/auth/patient-login" className="px-6 py-2.5 text-sm font-semibold text-[#8B5CF6] bg-white rounded-full hover:bg-gray-100 transition-colors">Login as a Patient</Link>

@@ -1,13 +1,43 @@
 "use client";
 import Link from "next/link";
 import { Activity, Menu, X } from "lucide-react"; // LIVE pulse icon
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const drawerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!open || !drawerRef.current) return;
+
+    const focusable = drawerRef.current.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    );
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    first?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (event.key !== "Tab" || focusable.length === 0) return;
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent" role="navigation" aria-label="Primary">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 md:px-12 lg:px-14 h-20 md:h-24">
         {/* Logo */}
         <div className="flex items-center gap-2">
@@ -51,7 +81,9 @@ export default function Navbar() {
           <button
             className="md:hidden p-2 rounded-md bg-white text-black"
             onClick={() => setOpen(!open)}
-            aria-label="Open menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-nav-drawer"
           >
             {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -61,9 +93,16 @@ export default function Navbar() {
       {/* Mobile menu drawer */}
       {open && (
         <div className="md:hidden fixed inset-0 z-40">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-0 w-64 h-full bg-neutral-900 p-6">
-            <nav className="flex flex-col gap-4">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setOpen(false)} aria-hidden="true" />
+          <div
+            ref={drawerRef}
+            id="mobile-nav-drawer"
+            className="absolute right-0 top-0 w-64 h-full bg-neutral-900 p-6"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation menu"
+          >
+            <nav className="flex flex-col gap-4" role="navigation" aria-label="Mobile">
               <Link href="#about" className="text-white font-medium" onClick={() => setOpen(false)}>
                 About
               </Link>

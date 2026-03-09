@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -53,9 +55,9 @@ export default function CTA() {
                     </p>
 
                     <div className="mt-8">
-                        <Link href="/signup" className="inline-block px-6 sm:px-10 py-3 sm:py-4 bg-white text-black rounded-full font-medium text-sm sm:text-base hover:bg-gray-100 shadow-lg transition">
-                            Create an Account
-                        </Link>
+                    <Link href="/auth/register" className="inline-block px-6 sm:px-10 py-3 sm:py-4 bg-white text-black rounded-full font-medium text-sm sm:text-base hover:bg-gray-100 shadow-lg transition">
+                        Create an Account
+                    </Link>
                     </div>
                 </div>
             </div>
