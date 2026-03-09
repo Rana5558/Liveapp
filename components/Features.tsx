@@ -66,6 +66,8 @@ export default function Features() {
                             <img
                                 src={feature.icon}
                                 alt={feature.title}
+                                width={32}
+                                height={32}
                                 className="w-8 h-8 object-contain"
                             />
                         </div>

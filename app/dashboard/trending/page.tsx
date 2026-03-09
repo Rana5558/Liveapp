@@ -109,7 +109,7 @@ export default function TrendingPage() {
                         value={prompt}
                         onChange={(e) => setPrompt(e.target.value)}
                         placeholder="Select a prompt above or type your own..."
-                        className="flex-1 bg-transparent text-white placeholder-neutral-600 outline-none text-xs sm:text-sm min-w-0"
+                        className="flex-1 bg-transparent text-white placeholder-neutral-600 outline-none text-xs sm:text-sm min-w-0 chat-input-no-border"
                     />
                     <Mic className="w-4 h-4 text-neutral-500 cursor-pointer hover:text-neutral-300 transition-colors shrink-0" />
                     <button

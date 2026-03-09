@@ -1,44 +1,99 @@
 "use client";
 
-import React, { useState } from "react";
-import { Search, MessageSquare, Edit2, X, Clock } from "lucide-react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { Search, MessageSquare, Edit2, X, Clock, Loader2 } from "lucide-react";
+import { useAppSelector, useAppDispatch } from "@/lib/hooks";
+import { fetchConversations, setActiveConversation } from "@/lib/features/chat/chatSlice";
+import { useInfiniteScroll } from "@/lib/hooks/useInfiniteScroll";
+import type { Conversation } from "@/lib/types/chat";
 
-const chatSections = [
-    {
-        label: "Today",
-        chats: [
-            { id: 1, title: "Tell me some UI/UX Design Ideas", time: "05:12 PM" },
-            { id: 2, title: "Design Inspiration Resources", time: "04:45 PM" },
-            { id: 3, title: "How do you approach designing for accessibility in UI?", time: "03:30 PM" },
-        ],
-    },
-    {
-        label: "Yesterday",
-        chats: [
-            { id: 4, title: "How do you approach designing for accessibility in UI?", time: "05:12 PM" },
-            { id: 5, title: "Explain my blood report findings", time: "01:20 PM" },
-        ],
-    },
-    {
-        label: "12 Jan 2025",
-        chats: [
-            { id: 6, title: "How do you approach designing for accessibility in UI?", time: "05:12 PM" },
-            { id: 7, title: "Tell me some UI/UX Design Ideas", time: "09:00 AM" },
-        ],
-    },
-];
+// ── Helpers ─────────────────────────────────────────────────────
+
+function getDateLabel(iso: string): string {
+    const date = new Date(iso);
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    if (date >= today) return 'Today';
+    if (date >= yesterday) return 'Yesterday';
+    return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function formatTime(iso: string): string {
+    try {
+        return new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } catch {
+        return '';
+    }
+}
+
+interface GroupedSection {
+    label: string;
+    conversations: Conversation[];
+}
+
+function groupByDate(conversations: Conversation[]): GroupedSection[] {
+    const map = new Map<string, Conversation[]>();
+
+    for (const conv of conversations) {
+        const label = getDateLabel(conv.updatedAt || conv.createdAt);
+        if (!map.has(label)) map.set(label, []);
+        map.get(label)!.push(conv);
+    }
+
+    return Array.from(map.entries()).map(([label, items]) => ({ label, conversations: items }));
+}
+
+// ── Component ───────────────────────────────────────────────────
 
 export default function ChatHistoryPage() {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+    const {
+        conversations,
+        conversationPagination,
+        isLoadingConversations,
+    } = useAppSelector((state) => state.chat);
+
     const [search, setSearch] = useState("");
 
-    const filtered = chatSections
-        .map((section) => ({
-            ...section,
-            chats: section.chats.filter((c) =>
-                c.title.toLowerCase().includes(search.toLowerCase())
-            ),
-        }))
-        .filter((s) => s.chats.length > 0);
+    // Fetch on mount
+    useEffect(() => {
+        dispatch(fetchConversations(1));
+    }, [dispatch]);
+
+    // Infinite scroll
+    const handleLoadMore = useCallback(() => {
+        if (!isLoadingConversations && conversationPagination.hasMore) {
+            dispatch(fetchConversations(conversationPagination.page + 1));
+        }
+    }, [dispatch, isLoadingConversations, conversationPagination]);
+
+    const { sentinelRef } = useInfiniteScroll({
+        hasMore: conversationPagination.hasMore,
+        isLoading: isLoadingConversations,
+        onLoadMore: handleLoadMore,
+    });
+
+    // Filter + group
+    const filtered = useMemo(() => {
+        const term = search.toLowerCase();
+        const list = term
+            ? conversations.filter((c) => c.title.toLowerCase().includes(term))
+            : conversations;
+        return groupByDate(list);
+    }, [conversations, search]);
+
+    const handleOpenChat = (conversationId: string) => {
+        dispatch(setActiveConversation(conversationId));
+        router.push(`/dashboard/home?conversation=${conversationId}`);
+    };
+
+    const totalShown = conversations.length;
+    const totalCount = conversationPagination.total || totalShown;
 
     return (
         <div className="px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 lg:pt-8 space-y-5 sm:space-y-6">
@@ -71,11 +126,17 @@ export default function ChatHistoryPage() {
 
             {/* Chat Sections */}
             <div className="space-y-6">
-                {filtered.length === 0 ? (
+                {isLoadingConversations && conversations.length === 0 ? (
+                    <div className="flex items-center justify-center py-20">
+                        <Loader2 className="w-8 h-8 text-primary animate-spin" />
+                    </div>
+                ) : filtered.length === 0 ? (
                     <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-10 sm:p-14 flex flex-col items-center justify-center text-center">
                         <MessageSquare className="w-9 h-9 text-neutral-700 mb-3" />
                         <p className="text-neutral-400 font-medium">No chats found</p>
-                        <p className="text-neutral-600 text-sm mt-1">Try a different search term</p>
+                        <p className="text-neutral-600 text-sm mt-1">
+                            {search ? 'Try a different search term' : 'Start a new conversation from the home page'}
+                        </p>
                     </div>
                 ) : (
                     filtered.map((section) => (
@@ -91,9 +152,10 @@ export default function ChatHistoryPage() {
 
                             {/* Chat Items */}
                             <div className="space-y-2">
-                                {section.chats.map((chat) => (
+                                {section.conversations.map((conv) => (
                                     <div
-                                        key={chat.id}
+                                        key={conv.id}
+                                        onClick={() => handleOpenChat(conv.id)}
                                         className="bg-neutral-900 border border-neutral-800 rounded-xl px-4 sm:px-5 py-3 sm:py-4 flex items-center gap-3 sm:gap-4 hover:bg-neutral-800 transition-colors cursor-pointer group"
                                     >
                                         {/* Icon */}
@@ -104,18 +166,30 @@ export default function ChatHistoryPage() {
                                         {/* Title */}
                                         <div className="flex-1 min-w-0">
                                             <p className="text-white font-medium text-xs sm:text-sm truncate group-hover:text-primary transition-colors">
-                                                {chat.title}
+                                                {conv.title}
                                             </p>
+                                            {conv.lastMessage && (
+                                                <p className="text-neutral-500 text-[10px] sm:text-[11px] truncate mt-0.5">
+                                                    {conv.lastMessage}
+                                                </p>
+                                            )}
                                         </div>
 
-                                        {/* Time — hidden on xs */}
+                                        {/* Time */}
                                         <div className="hidden xs:flex items-center gap-1.5 text-neutral-500 text-xs shrink-0">
                                             <Clock className="w-3.5 h-3.5" />
-                                            <span>{chat.time}</span>
+                                            <span>{formatTime(conv.updatedAt || conv.createdAt)}</span>
                                         </div>
 
                                         {/* Edit Button */}
-                                        <button className="p-1.5 sm:p-2 rounded-lg hover:bg-neutral-700 text-neutral-500 hover:text-white transition-colors opacity-0 group-hover:opacity-100 shrink-0">
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                // TODO: Implement rename conversation
+                                            }}
+                                            className="p-1.5 sm:p-2 rounded-lg hover:bg-neutral-700 text-neutral-500 hover:text-white transition-colors opacity-0 group-hover:opacity-100 shrink-0"
+                                            title="Rename chat"
+                                        >
                                             <Edit2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                         </button>
                                     </div>
@@ -124,15 +198,24 @@ export default function ChatHistoryPage() {
                         </div>
                     ))
                 )}
+
+                {/* Infinite Scroll Sentinel */}
+                <div ref={sentinelRef} className="h-1" />
+
+                {/* Loading more indicator */}
+                {isLoadingConversations && conversations.length > 0 && (
+                    <div className="flex items-center justify-center py-4">
+                        <Loader2 className="w-5 h-5 text-primary animate-spin" />
+                    </div>
+                )}
             </div>
 
-            {/* Pagination */}
-            {filtered.length > 0 && (
-                <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-2 pt-2 border-t border-neutral-800">
-                    <span className="text-neutral-500 text-xs sm:text-sm">Showing 1 – 10 of 123 results</span>
-                    <button className="ml-auto text-primary text-sm font-semibold hover:text-primary/80 transition-colors">
-                        Load more →
-                    </button>
+            {/* Footer count */}
+            {totalShown > 0 && (
+                <div className="flex items-center justify-between gap-2 pt-2 border-t border-neutral-800">
+                    <span className="text-neutral-500 text-xs sm:text-sm">
+                        Showing {totalShown} of {totalCount} conversations
+                    </span>
                 </div>
             )}
         </div>

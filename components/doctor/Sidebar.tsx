@@ -56,6 +56,8 @@ export default function DoctorSidebar() {
                     collapsed ? "w-[72px]" : "w-[240px]",
                     mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
                 )}
+                role="navigation"
+                aria-label="Sidebar navigation"
             >
                 {/* Logo */}
                 <div className="flex items-center justify-center py-5 px-4 border-b border-gray-100">
@@ -79,7 +81,7 @@ export default function DoctorSidebar() {
                                 title={collapsed ? item.label : undefined}
                                 onClick={() => setMobileOpen(false)}
                                 className={cn(
-                                    "group transition-all duration-200 flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium",
+                                    "group transition-all duration-200 flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary",
                                     isActive
                                         ? "bg-primary text-white shadow-md shadow-primary/25"
                                         : "text-gray-500 hover:bg-slate-100 hover:text-slate-700"
@@ -106,7 +108,7 @@ export default function DoctorSidebar() {
                             title={collapsed ? item.label : undefined}
                             onClick={() => setMobileOpen(false)}
                             className={cn(
-                                "group transition-all duration-200 flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium",
+                                "group transition-all duration-200 flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary",
                                 pathname === item.href
                                     ? "bg-primary text-white shadow-md shadow-primary/25"
                                     : "text-gray-500 hover:bg-slate-100 hover:text-slate-700"
@@ -124,8 +126,9 @@ export default function DoctorSidebar() {
                 {/* Collapse button (desktop only) */}
                 <button
                     onClick={() => setCollapsed(!collapsed)}
-                    className="hidden lg:flex absolute top-6 -right-3 bg-white text-gray-400 hover:text-slate-600 p-1 rounded-md shadow-md hover:shadow-lg hover:scale-110 transition-all duration-200 border border-gray-200 hover:border-slate-300"
+                    className="hidden lg:flex absolute top-6 -right-3 bg-white text-gray-400 hover:text-slate-600 p-1 rounded-md shadow-md hover:shadow-lg hover:scale-110 transition-all duration-200 border border-gray-200 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary"
                     aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                    aria-expanded={!collapsed}
                 >
                     {collapsed ? <ChevronRight size={13} /> : <ChevronLeft size={13} />}
                 </button>

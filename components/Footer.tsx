@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FaFacebookF, FaGoogle, FaInstagram, FaYoutube, FaWhatsapp } from "react-icons/fa";
 import { IoIosSend } from "react-icons/io";
 
@@ -9,29 +10,29 @@ export default function Footer() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 max-w-7xl mx-auto">
 
                 {/* --- NAVIGATION --- */}
-                <div>
+                <nav>
                     <h4 className="text-gray-400 text-sm mb-6">Navigation</h4>
 
                     <ul className="space-y-3 text-sm text-white/80">
-                        <li>Get Started</li>
-                        <li>About Us</li>
-                        <li>Pricing</li>
-                        <li>Payment</li>
-                        <li>Terms & Conditions</li>
-                        <li>Privacy Policy</li>
+                        <li><Link href="/auth/patient-login" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-primary rounded px-1">Get Started</Link></li>
+                        <li><Link href="/" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-primary rounded px-1">About Us</Link></li>
+                        <li><Link href="/#pricing" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-primary rounded px-1">Pricing</Link></li>
+                        <li><Link href="/dashboard/settings" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-primary rounded px-1">Payment</Link></li>
+                        <li><a href="#" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-primary rounded px-1">Terms & Conditions</a></li>
+                        <li><a href="#" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-primary rounded px-1">Privacy Policy</a></li>
                     </ul>
-                </div>
+                </nav>
 
-                {/* --- EMPTY SPACER COLUMN (Figma style) --- */}
-                <div>
-                    <h4 className="text-gray-400 text-sm mb-6"> </h4>
+                {/* --- RESOURCES --- */}
+                <nav>
+                    <h4 className="text-gray-400 text-sm mb-6">Resources</h4>
 
                     <ul className="space-y-3 text-sm text-white/80">
-                        <li>FAQ’s</li>
-                        <li>Blogs</li>
-                        <li>Contacts</li>
+                        <li><a href="#" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-primary rounded px-1">FAQ's</a></li>
+                        <li><a href="#" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-primary rounded px-1">Blogs</a></li>
+                        <li><a href="#" className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-900 focus:ring-primary rounded px-1">Contacts</a></li>
                     </ul>
-                </div>
+                </nav>
 
                 {/* --- CONTACT US --- */}
                 <div>
@@ -52,21 +53,21 @@ export default function Footer() {
                         <h4 className="text-gray-400 text-sm mb-4">Follow us</h4>
 
                         <div className="flex items-center gap-4">
-                            <IconCircle><FaFacebookF size={16} /></IconCircle>
-                            <IconCircle><FaGoogle size={16} /></IconCircle>
-                            <IconCircle><FaInstagram size={16} /></IconCircle>
-                            <IconCircle><FaYoutube size={16} /></IconCircle>
+                            <IconCircle as="a" href="https://facebook.com" target="_blank" rel="noopener noreferrer" ariaLabel="Visit our Facebook page"><FaFacebookF size={16} /></IconCircle>
+                            <IconCircle as="a" href="https://google.com" target="_blank" rel="noopener noreferrer" ariaLabel="Visit our Google page"><FaGoogle size={16} /></IconCircle>
+                            <IconCircle as="a" href="https://instagram.com" target="_blank" rel="noopener noreferrer" ariaLabel="Visit our Instagram page"><FaInstagram size={16} /></IconCircle>
+                            <IconCircle as="a" href="https://youtube.com" target="_blank" rel="noopener noreferrer" ariaLabel="Visit our YouTube channel"><FaYoutube size={16} /></IconCircle>
                         </div>
                     </div>
 
                     {/* LET'S CHAT */}
                     <div>
-                        <h4 className="text-gray-400 text-sm mb-4">Let’s chat</h4>
+                        <h4 className="text-gray-400 text-sm mb-4">Let's chat</h4>
 
                         <div className="flex items-center gap-4">
-                            <IconCircle><FaWhatsapp size={16} /></IconCircle>
-                            <IconCircle><IoIosSend size={18} /></IconCircle>
-                            <IconCircle><FaWhatsapp size={16} /></IconCircle>
+                            <IconCircle as="a" href="https://wa.me/" target="_blank" rel="noopener noreferrer" ariaLabel="Chat with us on WhatsApp"><FaWhatsapp size={16} /></IconCircle>
+                            <IconCircle as="a" href="mailto:hello@aliveai.ai" ariaLabel="Send us an email"><IoIosSend size={18} /></IconCircle>
+                            <IconCircle as="a" href="https://telegram.me/" target="_blank" rel="noopener noreferrer" ariaLabel="Connect with us on Telegram"><FaWhatsapp size={16} /></IconCircle>
                         </div>
                     </div>
                 </div>
@@ -105,10 +106,24 @@ export default function Footer() {
 }
 
 /* ───────── ICON CIRCLE COMPONENT ───────── */
-function IconCircle({ children }: { children: React.ReactNode }) {
+function IconCircle({
+    children,
+    as: Component = "div",
+    ariaLabel,
+    ...props
+}: {
+    children: React.ReactNode;
+    as?: any;
+    ariaLabel?: string;
+    [key: string]: any;
+}) {
     return (
-        <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition cursor-pointer">
+        <Component
+            className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-neutral-900"
+            aria-label={ariaLabel}
+            {...props}
+        >
             {children}
-        </div>
+        </Component>
     );
 }

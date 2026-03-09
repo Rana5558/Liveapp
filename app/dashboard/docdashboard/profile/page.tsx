@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { useAppSelector } from "@/lib/hooks";
 import {
     Mail,
@@ -43,9 +44,11 @@ export default function ProfilePage() {
                         {/* Avatar */}
                         <div className="relative">
                             <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-2xl border-4 border-white shadow-lg overflow-hidden bg-white">
-                                <img
+                                <Image
                                     src="https://api.dicebear.com/7.x/avataaars/svg?seed=Doctor"
                                     alt="Doctor profile"
+                                    width={112}
+                                    height={112}
                                     className="w-full h-full object-cover"
                                 />
                             </div>

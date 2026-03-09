@@ -1,4 +1,10 @@
+"use client";
+
 import Image from "next/image";
+
+const showComingSoon = (action: string) => {
+    alert(`${action} feature is coming soon!`);
+};
 
 export default function Pricing() {
     return (
@@ -47,7 +53,11 @@ export default function Pricing() {
                         </ul>
                     </div>
 
-                    <button className="w-full bg-[#222222] text-white py-3 sm:py-4 text-sm border-t border-white/10 rounded-b-3xl transition-colors hover:bg-[#333333]">
+                    <button
+                        onClick={() => showComingSoon("Plan management")}
+                        disabled
+                        className="w-full bg-[#222222] text-white py-3 sm:py-4 text-sm border-t border-white/10 rounded-b-3xl transition-colors hover:bg-[#333333] cursor-not-allowed"
+                    >
                         Your Current Plan
                     </button>
                 </div>
@@ -83,7 +93,10 @@ export default function Pricing() {
                         </ul>
                     </div>
 
-                    <button className="w-full bg-[#b19cff] text-black py-3 sm:py-4 text-sm font-medium hover:bg-[#a68cff] transition-colors rounded-b-3xl">
+                    <button
+                        onClick={() => showComingSoon("Upgrade to Plus plan")}
+                        className="w-full bg-[#b19cff] text-black py-3 sm:py-4 text-sm font-medium hover:bg-[#a68cff] transition-colors rounded-b-3xl"
+                    >
                         Upgrade to Plus
                     </button>
                 </div>
@@ -116,7 +129,10 @@ export default function Pricing() {
                         </ul>
                     </div>
 
-                    <button className="w-full bg-[#b19cff] text-black py-3 sm:py-4 text-sm font-medium hover:bg-[#a68cff] transition-colors rounded-b-3xl">
+                    <button
+                        onClick={() => showComingSoon("Upgrade to Team plan")}
+                        className="w-full bg-[#b19cff] text-black py-3 sm:py-4 text-sm font-medium hover:bg-[#a68cff] transition-colors rounded-b-3xl"
+                    >
                         Upgrade to Team
                     </button>
                 </div>

@@ -100,10 +100,12 @@ export default function InvitePage() {
                                 <p className="text-neutral-500 text-xs">Send a direct invite to their inbox</p>
                             </div>
                         </div>
-                        <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-2">
+                        <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-2" role="form" aria-label="Email invite form">
                             <div className="flex flex-col sm:flex-row gap-3">
                                 <div className="flex-1 space-y-1">
+                                    <label htmlFor="invite-email" className="sr-only">Friend's email address</label>
                                     <input
+                                        id="invite-email"
                                         type="email"
                                         {...register("email")}
                                         placeholder="friend@example.com"
@@ -111,9 +113,10 @@ export default function InvitePage() {
                                             ? "border-red-500 focus:ring-red-500/30"
                                             : "border-neutral-800 focus:ring-primary/40 focus:border-primary/50"
                                             }`}
+                                        aria-describedby={errors.email ? "invite-email-error" : undefined}
                                     />
                                     {errors.email && (
-                                        <p className="text-xs text-red-400">{errors.email.message}</p>
+                                        <p id="invite-email-error" role="alert" className="text-xs text-red-400">{errors.email.message}</p>
                                     )}
                                 </div>
                                 <button

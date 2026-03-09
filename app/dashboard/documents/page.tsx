@@ -3,6 +3,11 @@
 import React, { useState } from "react";
 import { FileText, Upload, Trash2, Download, Eye, Search, Plus } from "lucide-react";
 
+const showComingSoon = (action: string) => {
+    // Placeholder for toast notification - can be replaced with actual toast library
+    alert(`${action} feature is coming soon!`);
+};
+
 const documents = [
     { id: 1, name: "Blood Report Analysis.pdf", date: "Feb 15, 2026", size: "2.4 MB", type: "Medical Report" },
     { id: 2, name: "Prescription - Dr. Smith.pdf", date: "Feb 10, 2026", size: "1.2 MB", type: "Prescription" },
@@ -88,13 +93,19 @@ export default function DocumentsPage() {
 
                                 {/* Actions — always visible on mobile, hover-only on desktop */}
                                 <div className="flex items-center gap-1 shrink-0 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-                                    <button className="p-1.5 sm:p-2 hover:bg-neutral-700 rounded-lg text-neutral-400 hover:text-white transition-colors" title="Preview">
+                                    <button
+                                        onClick={() => showComingSoon("Preview")}
+                                        className="p-1.5 sm:p-2 hover:bg-neutral-700 rounded-lg text-neutral-400 hover:text-white transition-colors" title="Preview">
                                         <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                     </button>
-                                    <button className="p-1.5 sm:p-2 hover:bg-neutral-700 rounded-lg text-neutral-400 hover:text-white transition-colors" title="Download">
+                                    <button
+                                        onClick={() => showComingSoon("Download")}
+                                        className="p-1.5 sm:p-2 hover:bg-neutral-700 rounded-lg text-neutral-400 hover:text-white transition-colors" title="Download">
                                         <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                     </button>
-                                    <button className="p-1.5 sm:p-2 hover:bg-red-500/10 rounded-lg text-neutral-400 hover:text-red-400 transition-colors" title="Delete">
+                                    <button
+                                        onClick={() => showComingSoon("Delete")}
+                                        className="p-1.5 sm:p-2 hover:bg-red-500/10 rounded-lg text-neutral-400 hover:text-red-400 transition-colors" title="Delete">
                                         <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                     </button>
                                 </div>

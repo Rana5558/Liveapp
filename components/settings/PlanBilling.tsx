@@ -1,7 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import Image from "next/image";
 import { CreditCard, CheckCircle2, Download, ChevronLeft, ChevronRight } from "lucide-react";
+
+const showComingSoon = (action: string) => {
+  alert(`${action} feature is coming soon!`);
+};
 
 const invoices = [
   { id: "#487441", date: "Dec 7, 2024", plan: "Premium", amount: "$59.00" },
@@ -20,6 +25,8 @@ const planBenefits = [
 ];
 
 export default function PlanBilling() {
+  const [currentPage, setCurrentPage] = useState(1);
+
   return (
     <div className="space-y-4 sm:space-y-5">
       {/* Plan + Card — stacked on mobile, 2-col on md+ */}
@@ -45,10 +52,16 @@ export default function PlanBilling() {
           </div>
 
           <div className="flex flex-col xs:flex-row gap-2 xs:gap-3 pt-1">
-            <button className="flex-1 xs:flex-none px-4 py-2.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-sm transition-all shadow shadow-primary/20">
+            <button
+              onClick={() => showComingSoon("Change plan")}
+              className="flex-1 xs:flex-none px-4 py-2.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-sm transition-all shadow shadow-primary/20"
+            >
               Change Plan
             </button>
-            <button className="flex-1 xs:flex-none px-4 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-400 hover:text-white font-semibold rounded-xl text-sm transition-all border border-neutral-700">
+            <button
+              onClick={() => showComingSoon("Cancel subscription")}
+              className="flex-1 xs:flex-none px-4 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-400 hover:text-white font-semibold rounded-xl text-sm transition-all border border-neutral-700"
+            >
               Cancel
             </button>
           </div>
@@ -60,7 +73,10 @@ export default function PlanBilling() {
             <p className="text-neutral-400 text-xs font-semibold uppercase tracking-widest mb-1">Next Invoice</p>
             <p className="text-primary text-2xl sm:text-3xl font-bold">$59.00</p>
             <p className="text-neutral-500 text-sm mt-1">Due on Mar 28, 2026</p>
-            <button className="mt-3 px-5 py-2.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-sm transition-all shadow shadow-primary/20 w-full sm:w-auto">
+            <button
+              onClick={() => showComingSoon("Payment gateway")}
+              className="mt-3 px-5 py-2.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl text-sm transition-all shadow shadow-primary/20 w-full sm:w-auto"
+            >
               Pay Now →
             </button>
           </div>
@@ -68,14 +84,17 @@ export default function PlanBilling() {
           <div className="border-t border-neutral-800 pt-4">
             <div className="flex items-center justify-between mb-3">
               <p className="text-neutral-400 text-sm font-medium">Payment Card</p>
-              <button className="text-primary text-xs font-semibold hover:text-primary/80 flex items-center gap-1">
+              <button
+                onClick={() => showComingSoon("Edit payment method")}
+                className="text-primary text-xs font-semibold hover:text-primary/80 flex items-center gap-1"
+              >
                 <CreditCard className="w-3.5 h-3.5" />
                 Edit Card
               </button>
             </div>
             <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 border border-neutral-700 rounded-xl p-4">
               <div className="flex items-center justify-between mb-4">
-                <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" alt="Mastercard" className="w-9 h-6 object-contain" />
+                <Image src="https://img.icons8.com/color/48/000000/mastercard-logo.png" alt="Mastercard" width={36} height={24} className="object-contain" />
                 <span className="text-neutral-400 text-xs">Expires 12/29</span>
               </div>
               <p className="text-white text-sm sm:text-base font-mono tracking-widest">6714 **** **** ****</p>
@@ -111,7 +130,11 @@ export default function PlanBilling() {
                   </td>
                   <td className="py-3 px-3 text-white font-semibold text-xs sm:text-sm">{inv.amount}</td>
                   <td className="py-3 px-3 text-right">
-                    <button className="p-1.5 hover:bg-neutral-700 rounded-lg text-neutral-500 hover:text-white transition-colors" title="Download invoice">
+                    <button
+                      onClick={() => showComingSoon("Download invoice")}
+                      className="p-1.5 hover:bg-neutral-700 rounded-lg text-neutral-500 hover:text-white transition-colors"
+                      title="Download invoice"
+                    >
                       <Download className="w-4 h-4" />
                     </button>
                   </td>
@@ -125,18 +148,27 @@ export default function PlanBilling() {
         <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-2 pt-3 border-t border-neutral-800">
           <span className="text-neutral-500 text-xs">Showing 1 – 6 of 18 invoices</span>
           <div className="flex items-center gap-1">
-            <button className="p-1.5 rounded-lg hover:bg-neutral-800 text-neutral-500 hover:text-white transition-colors">
+            <button
+              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              className="p-1.5 rounded-lg hover:bg-neutral-800 text-neutral-500 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
               <ChevronLeft className="w-4 h-4" />
             </button>
             {[1, 2, 3].map((p) => (
               <button
                 key={p}
-                className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-xs sm:text-sm font-semibold transition-colors ${p === 1 ? "bg-primary text-white" : "text-neutral-400 hover:bg-neutral-800 hover:text-white"}`}
+                onClick={() => setCurrentPage(p)}
+                className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-xs sm:text-sm font-semibold transition-colors ${currentPage === p ? "bg-primary text-white" : "text-neutral-400 hover:bg-neutral-800 hover:text-white"}`}
               >
                 {String(p).padStart(2, "0")}
               </button>
             ))}
-            <button className="p-1.5 rounded-lg hover:bg-neutral-800 text-neutral-500 hover:text-white transition-colors">
+            <button
+              onClick={() => setCurrentPage(Math.min(3, currentPage + 1))}
+              disabled={currentPage === 3}
+              className="p-1.5 rounded-lg hover:bg-neutral-800 text-neutral-500 hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>

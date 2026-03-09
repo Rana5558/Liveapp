@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 import {
     Bell,
     HelpCircle,
@@ -17,9 +18,9 @@ export default function PatientHeader({ title = "Chat With AI" }: { title?: stri
     const { setMobileOpen, mobileOpen } = usePatientSidebar();
 
     return (
-        <header className="h-16 md:h-20 bg-gradient-to-b from-[#3a3a3a] to-[#2c2c2c] border-b border-neutral-800 flex items-center justify-between px-4 md:px-8 sticky top-0 z-10">
+        <header className="h-16 md:h-20 bg-gradient-to-b from-[#3a3a3a] to-[#2c2c2c] border-b border-neutral-800 flex items-center justify-between px-4 md:px-8 sticky top-0 z-10" role="banner">
             <div className="flex items-center gap-3">
-                <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 mr-2 rounded-md bg-white text-black" aria-label="Toggle menu">
+                <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 mr-2 rounded-md bg-white text-black focus:outline-none focus:ring-2 focus:ring-primary" aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen} aria-controls="mobile-nav-sidebar">
                     {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                 </button>
 
@@ -27,26 +28,28 @@ export default function PatientHeader({ title = "Chat With AI" }: { title?: stri
             </div>
 
             <div className="flex items-center gap-4">
-                <button className="hidden md:flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-3 py-1.5 rounded-full font-medium shadow-lg shadow-primary/20 transition-all duration-200 group">
+                <button className="hidden md:flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-3 py-1.5 rounded-full font-medium shadow-lg shadow-primary/20 transition-all duration-200 group focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-700" aria-label="Upgrade to premium">
                     <Zap className="w-4 h-4 fill-white" />
                     <span className="hidden sm:inline">Upgrade</span>
                 </button>
 
                 <div className="hidden sm:flex items-center gap-4 border-l border-neutral-800 pl-4">
-                    <button className="p-2 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded-lg transition-colors relative">
+                    <button className="p-2 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded-lg transition-colors relative focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Get help">
                         <HelpCircle className="w-5 h-5" />
                     </button>
-                    <button className="p-2 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded-lg transition-colors relative">
+                    <button className="p-2 text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 rounded-lg transition-colors relative focus:outline-none focus:ring-2 focus:ring-primary" aria-label="View notifications" aria-live="polite">
                         <Bell className="w-5 h-5" />
-                        <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-neutral-900"></span>
+                        <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-neutral-900" aria-label="You have unread notifications"></span>
                     </button>
                 </div>
 
-                <div className="flex items-center gap-3 pl-2 cursor-pointer hover:bg-neutral-800 p-1.5 rounded-xl transition-colors">
+                <button className="flex items-center gap-3 pl-2 hover:bg-neutral-800 p-1.5 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-primary" aria-label="User profile menu">
                     <div className="w-8 h-8 rounded-full bg-neutral-800 overflow-hidden border border-neutral-700">
-                        <img
+                        <Image
                             src="https://api.dicebear.com/7.x/avataaars/svg?seed=Patient"
                             alt="Profile"
+                            width={32}
+                            height={32}
                             className="w-full h-full object-cover"
                         />
                     </div>
@@ -54,7 +57,7 @@ export default function PatientHeader({ title = "Chat With AI" }: { title?: stri
                         <span className="font-medium text-white">{user?.name || "Patient"}</span>
                         <ChevronDown className="w-4 h-4 text-neutral-400" />
                     </div>
-                </div>
+                </button>
             </div>
         </header>
     );

@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './features/auth/authSlice';
 import uiReducer from './features/ui/uiSlice';
+import chatReducer from './features/chat/chatSlice';
 
 export const makeStore = () => {
     return configureStore({
         reducer: {
             auth: authReducer,
             ui: uiReducer,
+            chat: chatReducer,
         },
         devTools: process.env.NODE_ENV !== 'production',
     });
